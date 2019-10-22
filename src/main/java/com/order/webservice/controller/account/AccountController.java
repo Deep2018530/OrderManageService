@@ -9,5 +9,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/account")
 @Api(value = "账户API接口")
 public class AccountController {
-
 }
