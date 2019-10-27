@@ -1,18 +1,25 @@
 package com.order.webservice.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
-import redis.clients.jedis.JedisPoolConfig;
+import org.springframework.beans.factory.annotation.Value;
+
 
 /**
  * created by zhangdingping on 2019/10/27
  */
-@Configuration
+
 public class RedisConfiguration {
 
+    @Value("${spring.redis.host}")
+    private String redisHost;
 
+    @Value("${spring.redis.port}")
+    private Integer redisPort;
+
+   /* @Bean
+    public LettuceConnectionFactory redisConnectionFactory() {
+        RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
+        configuration.setHostName(redisHost);
+        configuration.setPort(redisPort);
+        return new LettuceConnectionFactory(configuration);
+    }*/
 }
