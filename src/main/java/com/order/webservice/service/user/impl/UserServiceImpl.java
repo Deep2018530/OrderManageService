@@ -39,6 +39,11 @@ public class UserServiceImpl implements UserService {
         UserVo ans = new UserVo();
         ans.setToken(TokenUtils.createToken(tokenVo));
         BeanUtils.copyProperties(user, ans);
+        if (user.getGender() == Boolean.TRUE) {
+            ans.setGender("男");
+        } else {
+            ans.setGender("女");
+        }
         return ans;
     }
 }
