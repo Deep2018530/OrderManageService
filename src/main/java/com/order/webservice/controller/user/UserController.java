@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/user")
 @Api(value = "用户API接口")
 public class UserController {
-    
+
     @Autowired
     private UserService userService;
 
@@ -27,7 +27,10 @@ public class UserController {
                                     @PathVariable(value = "email") String email,
                                     @ApiParam(value = "密码", required = true, defaultValue = "123456")
                                     @PathVariable(value = "password") String password) {
-
+        System.out.println("aaa");
+        if (1 == 1) {
+            throw new RuntimeException("登录异常！");
+        }
         return HttpResult.success(userService.login(email, password));
     }
 }
