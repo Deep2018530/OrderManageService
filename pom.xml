@@ -143,6 +143,20 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
+
+
+            <!--<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/application.yml</exclude>
+                        <exclude>**/application-dev.yml</exclude>
+                        &lt;!&ndash;                        <exclude>**/log4j2-spring.xml</exclude>&ndash;&gt;
+                    </excludes>
+                </configuration>
+            </plugin>-->
         </plugins>
     </build>
 
