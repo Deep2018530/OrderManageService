@@ -2,6 +2,7 @@ package com.order.webservice.domain.po.user;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -9,9 +10,11 @@ import java.util.List;
  * created by zhangdingping at 2019/10/23
  */
 @Data
-public class User {
+public class User implements Serializable {
 
-    private Long id;
+    private static final long serialVersionUID = -6125297654796395674L;
+
+    private Integer id;
 
     private String nickName;
 
