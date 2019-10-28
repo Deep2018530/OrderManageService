@@ -1,8 +1,9 @@
-package com.order.webservice.domain.po;
+package com.order.webservice.domain.po.user;
 
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * created by zhangdingping at 2019/10/23
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 public class User {
 
-    private Integer id;
+    private Long id;
 
     private String nickName;
 
@@ -29,7 +30,13 @@ public class User {
 
     private String oldPortrait;
 
+    private String address;
+
     private LocalDateTime createTime;
 
     private LocalDateTime lastTime;
+
+    private List<UserRole> userRoles;
+
+
 }
