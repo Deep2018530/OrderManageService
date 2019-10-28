@@ -9,6 +9,10 @@ spring:
     host: 49.233.85.147
     port: 6379
     timeout: 3000
+    key:
+      prefix:
+        login:
+          token: login-token-
 
   #mysql
   datasource:
