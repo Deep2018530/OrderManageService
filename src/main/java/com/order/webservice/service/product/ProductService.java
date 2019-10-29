@@ -10,5 +10,12 @@ import java.util.List;
  */
 public interface ProductService {
 
+    /**
+     * 分页获取商品（默认排序最新商品)
+     *
+     * @param page
+     * @param size
+     * @return
+     */
     PageResponseVo<ProductVo> getProductPage(Integer page, Integer size);
 }

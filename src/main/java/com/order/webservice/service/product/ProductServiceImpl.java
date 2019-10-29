@@ -27,9 +27,11 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductDao productDao;
 
+
     /**
-     * 根据数量获取最新创建的商品
-     *
+     * 分页获取商品（默认排序最新商品)
+     * @param page
+     * @param size
      * @return
      */
     @Override
