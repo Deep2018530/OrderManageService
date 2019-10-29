@@ -2,8 +2,11 @@ package com.order.webservice.service.product;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.order.webservice.common.converter.CommonConverter;
 import com.order.webservice.domain.po.product.Product;
+import com.order.webservice.domain.vo.PageResponseVo;
 import com.order.webservice.domain.vo.product.ProductVo;
 import com.order.webservice.mapper.product.ProductDao;
 import org.springframework.beans.BeanUtils;
@@ -27,14 +30,22 @@ public class ProductServiceImpl implements ProductService {
     /**
      * 根据数量获取最新创建的商品
      *
-     * @param num
      * @return
      */
     @Override
-    public List<ProductVo> getProductIndex(Integer num) {
-        if (Objects.isNull(num)) num = Integer.valueOf(4);
-        List<Product> products = productDao.selectListLimit(num);
-        return CommonConverter.convertList(products, product -> product2Vo(product));
+    public PageResponseVo<ProductVo> getProductPage(Integer page, Integer size) {
+        QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("create_time");
+        IPage<Product> pages = productDao.selectPage(new Page<>(page, size), queryWrapper);
+
+        PageResponseVo<ProductVo> ans = new PageResponseVo<>();
+        ans.setNumber(pages.getCurrent());
+        ans.setSize(pages.getSize());
+        ans.setTotalElements(pages.getTotal());
+        ans.setTotalPages(pages.getPages());
+        ans.setContent(CommonConverter.convertList(pages.getRecords(), this::product2Vo));
+
+        return ans;
     }
 
 

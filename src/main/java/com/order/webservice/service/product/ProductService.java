@@ -1,5 +1,6 @@
 package com.order.webservice.service.product;
 
+import com.order.webservice.domain.vo.PageResponseVo;
 import com.order.webservice.domain.vo.product.ProductVo;
 
 import java.util.List;
@@ -9,5 +10,5 @@ import java.util.List;
  */
 public interface ProductService {
 
-    List<ProductVo> getProductIndex(Integer num);
+    PageResponseVo<ProductVo> getProductPage(Integer page, Integer size);
 }

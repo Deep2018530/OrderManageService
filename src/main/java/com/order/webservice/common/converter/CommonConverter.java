@@ -1,5 +1,8 @@
 package com.order.webservice.common.converter;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.order.webservice.domain.vo.PageResponseVo;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 
@@ -13,6 +16,7 @@ import java.util.function.Function;
  * created by zhangdingping at 2019/10/29
  */
 public class CommonConverter {
+
     public static <IN, OUT> List<OUT> convertList(List<IN> inList, Function<IN, OUT> mapper) {
 
         List<OUT> outList = new ArrayList<>(inList.size());
@@ -34,5 +38,18 @@ public class CommonConverter {
             throw new RuntimeException(e);
         }
         return obj;
+    }
+
+    public static <T> PageResponseVo<T> toPage(IPage<T> page) {
+
+        PageResponseVo<T> vo = new PageResponseVo<>();
+        vo.setNumber(page.getCurrent());
+        vo.setSize(page.getSize());
+        vo.setTotalElements(page.getTotal());
+        vo.setTotalPages(page.getPages());
+        /*vo.setFirst(page.hasPrevious());
+        vo.setLast(page.hasNext());*/
+        vo.setContent(page.getRecords());
+        return vo;
     }
 }

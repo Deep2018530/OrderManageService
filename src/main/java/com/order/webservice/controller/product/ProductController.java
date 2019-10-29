@@ -1,6 +1,7 @@
 package com.order.webservice.controller.product;
 
 import com.order.webservice.common.HttpResult;
+import com.order.webservice.domain.vo.PageResponseVo;
 import com.order.webservice.domain.vo.product.ProductVo;
 import com.order.webservice.service.product.ProductService;
 import io.swagger.annotations.Api;
@@ -26,13 +27,12 @@ public class ProductController {
     private ProductService productService;
 
 
-    @GetMapping(value = {"/list/late/{num}", "/list/late"})
+    @GetMapping(value = {"/list/late/{page}/{size}", "/list/late"})
     @ApiOperation(value = "首页商品展示（根据数量）")
-    public HttpResult<List<ProductVo>> getProduct(@ApiParam(value = "条数") @PathVariable(value = "num", required = false) Integer num) {
-        if (num == null) {
-            num = Integer.valueOf(4);
-        }
+    public HttpResult<PageResponseVo<ProductVo>> getProduct(@ApiParam(value = "页数（第一页是1)") @PathVariable(value = "page", required = false) Integer page,
+                                                            @ApiParam(value = "每页条数") @PathVariable(value = "size", required = false) Integer size) {
 
-        return HttpResult.success(productService.getProductIndex(num));
+        return HttpResult.success(productService.getProductPage(page, size));
+
     }
 }

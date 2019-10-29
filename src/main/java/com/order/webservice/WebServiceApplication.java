@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 @SpringBootApplication
-@MapperScan("com.order.webservice.mapper")
 public class WebServiceApplication {
 
     public static void main(String[] args) {
