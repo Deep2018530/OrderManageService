@@ -27,11 +27,11 @@ public class PageResponseVo<T> {
     @ApiModelProperty(value = "总页数")
     private long totalPages;
 
-    @ApiModelProperty(value = "是否存在上一页")
-    private boolean first;
-
-    @ApiModelProperty(value = "是否存在下一页")
-    private boolean last;
+//    @ApiModelProperty(value = "是否存在上一页")
+//    private boolean first;
+//
+//    @ApiModelProperty(value = "是否存在下一页")
+//    private boolean last;
 
     @ApiModelProperty(value = "内容/数据")
     private List<T> content;
@@ -40,8 +40,8 @@ public class PageResponseVo<T> {
 
         PageResponseVo<E> newVo = new PageResponseVo<>();
         newVo.setContent(CommonConverter.convertList(this.content, mapper));
-        newVo.setFirst(this.first);
-        newVo.setLast(this.last);
+//        newVo.setFirst(this.first);
+//        newVo.setLast(this.last);
         newVo.setNumber(this.number);
         newVo.setSize(this.size);
         newVo.setTotalElements(this.totalElements);
