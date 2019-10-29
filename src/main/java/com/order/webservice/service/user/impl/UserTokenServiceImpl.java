@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -39,13 +40,25 @@ public class UserTokenServiceImpl implements UserTokenService {
     @Transactional(propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
     public String setToken(Long userId) {
         Objects.requireNonNull(userId);
-
-        StringBuilder sb = new StringBuilder(30);
-        sb.append(redisConfiguration.loginTokenPrefix);
-        sb.append(userId);
         String token = getToken();
-        redisTemplate.opsForValue().set(sb.toString(), token, TOKEN_ACTIVE, TimeUnit.HOURS);
+        redisTemplate.opsForValue().set(token, userId, TOKEN_ACTIVE, TimeUnit.HOURS);
         return token;
+    }
+
+    /**
+     * 验证token是否过期
+     *
+     * @param token
+     * @return
+     */
+    @Override
+    public Boolean checkToken(String token) {
+        Object userId = redisTemplate.opsForValue().get(token);
+        if (Objects.isNull(userId)) {
+            return false;
+        }
+        redisTemplate.opsForValue().set(token, userId, TOKEN_ACTIVE, TimeUnit.HOURS);
+        return true;
     }
 
     private String getToken() {
