@@ -30,6 +30,7 @@ public class ProductServiceImpl implements ProductService {
 
     /**
      * 分页获取商品（默认排序最新商品)
+     *
      * @param page
      * @param size
      * @return

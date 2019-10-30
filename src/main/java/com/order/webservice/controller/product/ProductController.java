@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Objects;
 
 /**
  * created by zhangdingping at 2019/10/29
@@ -31,7 +31,6 @@ public class ProductController {
     @ApiOperation(value = "首页商品展示（根据数量）")
     public HttpResult<PageResponseVo<ProductVo>> getProduct(@ApiParam(value = "页数（第一页是1)") @PathVariable(value = "page", required = false) Integer page,
                                                             @ApiParam(value = "每页条数") @PathVariable(value = "size", required = false) Integer size) {
-
         return HttpResult.success(productService.getProductPage(page, size));
 
     }
