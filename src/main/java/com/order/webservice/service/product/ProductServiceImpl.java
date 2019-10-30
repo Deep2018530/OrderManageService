@@ -51,6 +51,17 @@ public class ProductServiceImpl implements ProductService {
         return ans;
     }
 
+    /**
+     * 查询所有商品
+     *
+     * @return
+     */
+    @Override
+    public List<ProductVo> getProduct() {
+        List<Product> products = productDao.selectList(new QueryWrapper<Product>().orderByDesc("create_time"));
+        return CommonConverter.convertList(products, this::product2Vo);
+    }
+
 
     private ProductVo product2Vo(Product product) {
         if (product == null) return null;

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -27,11 +28,16 @@ public class ProductController {
     private ProductService productService;
 
 
-    @GetMapping(value = {"/list/{page}/{size}", "/list"})
-    @ApiOperation(value = "首页商品展示（根据数量）")
-    public HttpResult<PageResponseVo<ProductVo>> getProduct(@ApiParam(value = "页数（第一页是1)") @PathVariable(value = "page", required = false) Integer page,
-                                                            @ApiParam(value = "每页条数") @PathVariable(value = "size", required = false) Integer size) {
+    @GetMapping(value = "/list/{page}/{size}")
+    @ApiOperation(value = "首页商品展示（分页）")
+    public HttpResult<PageResponseVo<ProductVo>> getProductPage(@ApiParam(value = "页数（第一页是1)") @PathVariable(value = "page", required = false) Integer page,
+                                                                @ApiParam(value = "每页条数") @PathVariable(value = "size", required = false) Integer size) {
         return HttpResult.success(productService.getProductPage(page, size));
+    }
 
+    @GetMapping(value = "/list")
+    @ApiOperation(value = "商品展示(所有)")
+    public HttpResult<List<ProductVo>> getProduct() {
+        return HttpResult.success(productService.getProduct());
     }
 }

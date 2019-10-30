@@ -2,16 +2,14 @@ package com.order.webservice.controller.user;
 
 
 import com.order.webservice.common.HttpResult;
+import com.order.webservice.domain.dto.user.UserDto;
 import com.order.webservice.domain.vo.user.UserVo;
 import com.order.webservice.service.user.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -28,5 +26,11 @@ public class UserController {
                                     @ApiParam(value = "密码", required = true, defaultValue = "123456")
                                     @PathVariable(value = "password") String password) {
         return HttpResult.success(userService.login(email, password));
+    }
+
+    @PostMapping("/regist")
+    @ApiOperation(value = "用户注册")
+    public HttpResult<UserVo> regist(@ApiParam(value = "用户注册对象") @RequestBody UserDto userDto) {
+        return HttpResult.success(userService.regist(userDto));
     }
 }

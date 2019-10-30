@@ -18,4 +18,10 @@ public interface ProductService {
      * @return
      */
     PageResponseVo<ProductVo> getProductPage(Integer page, Integer size);
+
+    /**
+     * 查询所有商品
+     * @return
+     */
+    List<ProductVo> getProduct();
 }
