@@ -27,7 +27,7 @@ public class ProductController {
     private ProductService productService;
 
 
-    @GetMapping(value = {"/list/late/{page}/{size}", "/list/late"})
+    @GetMapping(value = {"/list/{page}/{size}", "/list"})
     @ApiOperation(value = "首页商品展示（根据数量）")
     public HttpResult<PageResponseVo<ProductVo>> getProduct(@ApiParam(value = "页数（第一页是1)") @PathVariable(value = "page", required = false) Integer page,
                                                             @ApiParam(value = "每页条数") @PathVariable(value = "size", required = false) Integer size) {
