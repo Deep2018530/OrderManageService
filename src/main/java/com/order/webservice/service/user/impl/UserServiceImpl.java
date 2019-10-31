@@ -71,8 +71,6 @@ public class UserServiceImpl implements UserService {
 
         Role role = roleDao.selectById(RoleDao.COMMON_USER);
         Objects.requireNonNull(role, "赋予角色失败！role=null,roleId=" + RoleDao.COMMON_USER);
-        userRole.setRoleName(role.getName());
-        userRole.setRoleDescription(role.getDescription());
         userRoleDao.insert(userRole);
 
         return merge2Vo(user, userRole);
