@@ -12,7 +12,7 @@ import java.util.List;
  * created by zhangdingping at 2019/10/23
  */
 @Data
-@ApiModel(value = "用户")
+@ApiModel(description = "用户")
 public class UserVo {
 
     @ApiModelProperty("昵称/用户名")

@@ -1,6 +1,5 @@
 package com.order.webservice.domain.dto.user;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -9,7 +8,7 @@ import lombok.Data;
  * created by zhangdingping at 2019/10/23
  */
 @Data
-@ApiModel(value = "用户")
+@ApiModel(description = "用户")
 public class UserDto {
 
 
