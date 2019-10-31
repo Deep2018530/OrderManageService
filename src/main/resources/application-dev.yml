@@ -16,27 +16,9 @@ spring:
       prefix:
         login:
           token: login-token-
-
   #mysql
   datasource:
     url: jdbc:mysql://49.233.85.147/orderservice?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&serverTimezone=Asia/Shanghai
     username: root
-    password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    type: com.zaxxer.hikari.HikariDataSource
-    hikari:
-      minimum-idle: 3
-      maximum-pool-size: 10
-      auto-commit: true
-      idle-timeout: 300000
-      connection-timeout: 30000
-      connection-test-query: SELECT 1
-      pool-name: OrderServiceHikariCP
-
-#mybatis
 mybatis-plus:
-  mapper-locations: classpath*:/mapper/**/*.xml
-  configuration:
-    map-underscore-to-camel-case: true
-    call-setters-on-nulls: true
-  type-aliases-package: com.order.webservice.domain
+  type-aliases-package: com.order.webservice.domain.po
