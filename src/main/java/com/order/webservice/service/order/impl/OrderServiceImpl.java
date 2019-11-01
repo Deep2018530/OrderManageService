@@ -8,6 +8,7 @@ import com.order.webservice.common.converter.CommonConverter;
 import com.order.webservice.domain.dto.order.OrderDto;
 import com.order.webservice.domain.po.order.Order;
 import com.order.webservice.domain.vo.PageResponseVo;
+import com.order.webservice.domain.vo.order.OrderNewVo;
 import com.order.webservice.domain.vo.order.OrderVo;
 import com.order.webservice.mapper.order.OrderDao;
 import com.order.webservice.service.order.OrderService;
@@ -63,6 +64,25 @@ public class OrderServiceImpl implements OrderService {
         ans.setContent(CommonConverter.convertList(pages.getRecords(), this::order2Vo));
 
         return ans;
+    }
+
+    /**
+     * 购买商品→生成订单
+     *
+     * @param userId
+     * @param productId
+     * @return
+     */
+    @Override
+    public OrderNewVo buyProduct(Object userId, Long productId) {
+
+        // 判定余额是否足够
+
+        //余额足够，生成订单 order order_detail
+
+        //扣除余额，更新消费金额 account
+
+        return null;
     }
 
     private OrderVo order2Vo(Order order) {

@@ -11,9 +11,11 @@ public enum OrderStatus implements IEnum<OrderStatus> {
 
     NOT_PAY("0", "待支付"),
 
-    PAYED("1", "已支付"),
+    FINISHED("1", "已完成"),
 
-    FINISHED("2", "已完成");
+    APPLY_FOR_REFUND("2", "申请退款"),
+
+    REFUSED_FOR_REFUND("3", "拒绝退款");
 
     OrderStatus(String code, String description) {
         this.code = code;
