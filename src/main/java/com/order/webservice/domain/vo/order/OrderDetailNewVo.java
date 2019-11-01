@@ -2,10 +2,12 @@ package com.order.webservice.domain.vo.order;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 /**
  * created by zhangdingping on 2019/11/2
  */
+@Data
 @ApiModel(description = "订单明细")
 public class OrderDetailNewVo {
 
