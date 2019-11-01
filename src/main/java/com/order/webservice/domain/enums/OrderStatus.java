@@ -1,0 +1,41 @@
+package com.order.webservice.domain.enums;
+
+
+/**
+ * created by zhangdingping at 2019/11/1
+ */
+public enum OrderStatus implements IEnum<OrderStatus> {
+
+    NOT_PAY("0", "待支付"),
+    PAYED("1", "已支付"),
+    FINISHED("2", "已完成");
+
+    OrderStatus(String code, String description) {
+        this.code = code;
+        this.description = description;
+    }
+
+    private String code;
+
+    private String description;
+
+    @Override
+    public String getCode() {
+        return this.code;
+    }
+
+    @Override
+    public String getDescription() {
+        return this.description;
+    }
+
+    public static OrderStatus getByCode(String code) {
+        for (OrderStatus value : OrderStatus.values()) {
+            if (value.code.equals(code)) {
+                return value;
+            }
+        }
+        return null;
+    }
+
+}
