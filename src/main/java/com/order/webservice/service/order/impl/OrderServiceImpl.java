@@ -13,9 +13,11 @@ import com.order.webservice.mapper.order.OrderDao;
 import com.order.webservice.service.order.OrderService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
