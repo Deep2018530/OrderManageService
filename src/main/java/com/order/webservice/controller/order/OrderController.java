@@ -21,7 +21,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @GetMapping("/order{page}/{size}")
+    @GetMapping("/order/{page}/{size}")
     @ApiOperation(value = "管理员订单展示")
     public HttpResult<PageResponseVo<OrderVo>> getOrderPage(@ApiParam(value = "第几页（第一页是1)")
                                                             @PathVariable(value = "page", required = false) Integer page,
@@ -30,7 +30,7 @@ public class OrderController {
         return HttpResult.success(orderService.getOrderPage(page, size));
     }
 
-    @GetMapping("/order/query{page}/{size}")
+    @GetMapping("/order/query/{page}/{size}")
     @ApiOperation(value = "管理员订单查询")
     public HttpResult<PageResponseVo<OrderVo>> query(@ApiParam(value = "第几页（第一页是1)")
                                                      @PathVariable(value = "page", required = false) Integer page,
