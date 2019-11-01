@@ -10,6 +10,7 @@ import com.order.webservice.exception.user.UserException;
 import com.order.webservice.mapper.user.RoleDao;
 import com.order.webservice.mapper.user.UserDao;
 import com.order.webservice.mapper.user.UserRoleDao;
+import com.order.webservice.service.account.AccountService;
 import com.order.webservice.service.user.UserService;
 import com.order.webservice.service.user.UserTokenService;
 import org.springframework.beans.BeanUtils;
@@ -42,6 +43,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserTokenService userTokenService;
 
+    @Autowired
+    private AccountService accountService;
+
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public UserVo login(String email, String password) {
@@ -61,19 +65,22 @@ public class UserServiceImpl implements UserService {
     public UserVo regist(UserDto userDto) {
         if (ObjectUtils.isEmpty(userDto)) throw new IllegalArgumentException("输入参数有误！");
 
+        //用户
         User user = new User();
         BeanUtils.copyProperties(userDto, user);
         userDao.insert(user);
 
+        //初始化角色
         UserRole userRole = new UserRole();
         userRole.setUserId(Objects.requireNonNull(user.getId(), "新增用户失败！userId=null"));
         userRole.setRoleId(RoleDao.COMMON_USER);
 
         Role role = roleDao.selectById(RoleDao.COMMON_USER);
         Objects.requireNonNull(role, "赋予角色失败！role=null,roleId=" + RoleDao.COMMON_USER);
-        userRole.setRoleName(role.getName());
-        userRole.setRoleDescription(role.getDescription());
         userRoleDao.insert(userRole);
+
+        //初始化账户
+        accountService.initAccount(user.getId());
 
         return merge2Vo(user, userRole);
     }

@@ -1,4 +1,4 @@
-package com.order.webservice.service.product;
+package com.order.webservice.service.product.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -9,6 +9,7 @@ import com.order.webservice.domain.po.product.Product;
 import com.order.webservice.domain.vo.PageResponseVo;
 import com.order.webservice.domain.vo.product.ProductVo;
 import com.order.webservice.mapper.product.ProductDao;
+import com.order.webservice.service.product.ProductService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
