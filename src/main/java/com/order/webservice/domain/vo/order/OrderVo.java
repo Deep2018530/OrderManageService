@@ -12,16 +12,22 @@ public class OrderVo {
 
     @ApiModelProperty("订单号")
     private Long id;
+
     @ApiModelProperty("用户ID")
     private Long user_id;
+
     @ApiModelProperty("金额")
     private Double amount;
+
     @ApiModelProperty("创建时间")
     private LocalDateTime create_time;
+
     @ApiModelProperty("支付时间")
     private LocalDateTime pay_time;
+
     @ApiModelProperty("订单状态")
     private String status;
+
     @ApiModelProperty("最后修改时间")
     private LocalDateTime last_time;
 
