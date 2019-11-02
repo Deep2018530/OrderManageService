@@ -31,6 +31,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -131,6 +132,22 @@ public class OrderServiceImpl implements OrderService {
         } else {
             throw new RuntimeException("余额不足！");
         }
+    }
+
+    /**
+     * 修改订单状态
+     *
+     * @param orderStatus 订单状态
+     * @return 是否修改成功
+     */
+    @Override
+    public Boolean updateOrderStatus(BigInteger orderId, OrderStatus orderStatus) {
+        Order order = orderDao.selectById(orderId);
+        Objects.requireNonNull(order, "订单不存在！订单号:" + orderId);
+
+        order.setStatus(orderStatus.getDescription());
+        orderDao.updateById(order);
+        return true;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)

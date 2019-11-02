@@ -2,6 +2,7 @@ package com.order.webservice.controller.order;
 
 import com.order.webservice.common.HttpResult;
 import com.order.webservice.domain.dto.order.OrderDto;
+import com.order.webservice.domain.enums.OrderStatus;
 import com.order.webservice.domain.vo.PageResponseVo;
 import com.order.webservice.domain.vo.order.OrderNewVo;
 import com.order.webservice.domain.vo.order.OrderVo;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.util.Objects;
 
 @RestController
@@ -46,5 +48,18 @@ public class OrderController {
         Objects.requireNonNull(userId, UserErrorCode.USER_NOT_EXIST.getMessage());
 
         return HttpResult.success(orderService.buyProduct(userId, productId));
+    }
+
+    /**
+     * 修改订单状态
+     *
+     * @param orderId
+     * @return
+     */
+    @GetMapping("/refund/{orderId}")
+    @ApiOperation(value = "申请退款")
+    public HttpResult applyForRefund(@ApiParam(value = "订单号", required = true) @PathVariable(value = "orderId") BigInteger orderId) {
+
+        return HttpResult.success(orderService.updateOrderStatus(orderId, OrderStatus.APPLY_FOR_REFUND));
     }
 }
