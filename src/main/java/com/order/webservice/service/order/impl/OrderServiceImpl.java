@@ -164,7 +164,10 @@ public class OrderServiceImpl implements OrderService {
         orderDetailNewVo.setDetail(product.getDetail());
         orderDetailNewVo.setMoreDetail(product.getMoreDetail());
         orderDetailNewVo.setPrice(product.getPrice());
+        orderDetailNewVo.setCreateTime(orderDetail.getCreateTime());
         vo.setOrderDetailNewVoList(Arrays.asList(orderDetailNewVo));
+
+        vo.setCreateTime(order.getCreate_time());
         return vo;
     }
 
