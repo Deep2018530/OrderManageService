@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
 public class OrderNewVo {
 
     @ApiModelProperty("订单号")
-    private Long id;
+    private BigInteger id;
 
     @ApiModelProperty("用户ID")
     private Long userId;

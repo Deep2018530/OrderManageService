@@ -20,6 +20,12 @@ public class OrderDetailNewVo {
     @ApiModelProperty("商品名称")
     private String productName;
 
+    @ApiModelProperty("商品概述")
+    private String detail;
+
+    @ApiModelProperty("商品详细描述")
+    private String moreDetail;
+
     @ApiModelProperty("数量")
     private Integer num;
 

@@ -2,13 +2,14 @@ package com.order.webservice.domain.po.order;
 
 import lombok.Data;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Data
 public class Order {
 
     //订单ID
-    private Long id;
+    private BigInteger id;
 
     //用户ID
     private Long user_id;
