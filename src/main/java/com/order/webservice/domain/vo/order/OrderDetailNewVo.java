@@ -4,6 +4,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.math.BigInteger;
+import java.time.LocalDateTime;
+
 /**
  * created by zhangdingping on 2019/11/2
  */
@@ -12,7 +15,7 @@ import lombok.Data;
 public class OrderDetailNewVo {
 
     @ApiModelProperty("订单ID")
-    private Long orderId;
+    private BigInteger orderId;
 
     @ApiModelProperty("商品ID")
     private Long productId;
@@ -31,4 +34,7 @@ public class OrderDetailNewVo {
 
     @ApiModelProperty("单价")
     private Float price;
+
+    @ApiModelProperty("订单生成时间")
+    private LocalDateTime createTime;
 }

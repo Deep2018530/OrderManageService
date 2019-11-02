@@ -9,9 +9,9 @@ import java.util.List;
  */
 public enum OrderStatus implements IEnum<OrderStatus> {
 
-    NOT_PAY("0", "待支付"),
+    //NOT_PAY("0", "待支付"),
 
-    FINISHED("1", "已完成"),
+    FINISHED("1", "已支付"),
 
     APPLY_FOR_REFUND("2", "申请退款"),
 

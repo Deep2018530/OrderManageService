@@ -126,17 +126,11 @@ public class OrderServiceImpl implements OrderService {
         if (balance.compareTo(price) >= 0) {
             account.setBalance(balance - price);
             account.setTotalConsumption(price);
-
-            createOrder(Long.parseLong(userId.toString()), product);
+            accountDao.updateById(account);
+            return createOrder(Long.parseLong(userId.toString()), product);
         } else {
             throw new RuntimeException("余额不足！");
         }
-
-        //余额足够，生成订单 order order_detail
-
-        //扣除余额，更新消费金额 account
-
-        return null;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
@@ -144,7 +138,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setAmount(Double.parseDouble(product.getPrice().toString()));
         order.setId(orderIdFactory.createOrderId());
-        order.setStatus(OrderStatus.NOT_PAY.getDescription());
+        order.setStatus(OrderStatus.FINISHED.getDescription());
         order.setUser_id(userId);
         orderDao.insert(order);
 
@@ -160,13 +154,16 @@ public class OrderServiceImpl implements OrderService {
         vo.setId(order.getId());
         vo.setStatus(order.getStatus());
         vo.setUserId(userId);
-        User user = userDao.selectById(userId);
+        User user = userDao.findById(userId);
         Objects.requireNonNull(user, UserErrorCode.USER_NOT_EXIST.getMessage());
         vo.setUserName(user.getNickName());
 
         OrderDetailNewVo orderDetailNewVo = new OrderDetailNewVo();
         BeanUtils.copyProperties(orderDetail, orderDetailNewVo);
         orderDetailNewVo.setProductName(product.getName());
+        orderDetailNewVo.setDetail(product.getDetail());
+        orderDetailNewVo.setMoreDetail(product.getMoreDetail());
+        orderDetailNewVo.setPrice(product.getPrice());
         vo.setOrderDetailNewVoList(Arrays.asList(orderDetailNewVo));
         return vo;
     }

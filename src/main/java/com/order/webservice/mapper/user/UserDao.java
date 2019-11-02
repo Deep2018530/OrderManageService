@@ -13,4 +13,6 @@ public interface UserDao extends BaseMapper<User> {
 
     User selectOne(@Param("email") String email);
 
+    @Select(value = "SELECT * FROM user WHERE id = #{userId}")
+    User findById(@Param(value = "userId") Long userId);
 }

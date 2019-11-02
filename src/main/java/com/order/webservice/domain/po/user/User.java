@@ -1,5 +1,6 @@
 package com.order.webservice.domain.po.user;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.io.Serializable;
