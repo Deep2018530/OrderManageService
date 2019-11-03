@@ -16,6 +16,7 @@ import com.order.webservice.domain.po.user.User;
 import com.order.webservice.domain.vo.PageResponseVo;
 import com.order.webservice.domain.vo.order.OrderDetailNewVo;
 import com.order.webservice.domain.vo.order.OrderNewVo;
+import com.order.webservice.domain.vo.order.OrderStatisticsVo;
 import com.order.webservice.domain.vo.order.OrderVo;
 import com.order.webservice.exception.user.UserErrorCode;
 import com.order.webservice.mapper.account.AccountDao;
@@ -33,6 +34,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -202,6 +204,27 @@ public class OrderServiceImpl implements OrderService {
         order.setVerifyRejectReason(rejectReason);
         return true;
     }
+
+    /**
+     * 订单顶部根据状态统计
+     *
+     * @return
+     */
+    @Override
+    public OrderStatisticsVo getOrderStatistics() {
+
+        OrderStatisticsVo ans = new OrderStatisticsVo();
+
+        QueryWrapper<Order> verifyQueryWrapper = new QueryWrapper<>();
+        verifyQueryWrapper.in("status", OrderStatus.PASS_FOR_REFUND.getDescription(), OrderStatus.REFUSED_FOR_REFUND.getDescription());
+        ans.setHasVerify(orderDao.selectCount(verifyQueryWrapper));
+
+        QueryWrapper<Order> notVerifyQueryWrapper = new QueryWrapper<>();
+        notVerifyQueryWrapper.eq("status", OrderStatus.APPLY_FOR_REFUND.getDescription());
+        ans.setNotVerify(orderDao.selectCount(notVerifyQueryWrapper));
+        return ans;
+    }
+
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     public OrderNewVo createOrder(Long userId, Product product) {

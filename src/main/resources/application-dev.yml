@@ -1,5 +1,5 @@
 server:
-  port: 10000
+  port: 10001
   servlet:
     context-path: /zzshx
 
@@ -22,3 +22,5 @@ spring:
     username: root
 mybatis-plus:
   type-aliases-package: com.order.webservice.domain.po
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
