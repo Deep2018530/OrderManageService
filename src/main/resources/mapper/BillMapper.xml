@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.order.webservice.mapper.bill.BillDao">
+
+<!--查询账单信息-->
+    <select id="getBillDetailInfo" resultType="BillDetail">
+        select
+            b.expend,
+            b.income,
+            bd.balance,
+            p.`name`,
+            bd.bill_type,
+            bd.price
+        FROM bill b,bill_detail bd,product p
+        where b.id = bd.bill_id
+        and p.id = bd.product_id
+        and  DATE_FORMAT( b.create_time, '%Y%m' ) =  #{month}
+        and b.user_id=#{userId}
+    </select>
+</mapper>
