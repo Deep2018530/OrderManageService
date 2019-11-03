@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
@@ -39,5 +38,8 @@ public class Order {
      * 申请退款拒绝原因（审核拒绝原因）
      */
     private String verifyRejectReason;
+
+    //用户名
+    private String nick_name;
 
 }

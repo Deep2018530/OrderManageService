@@ -16,6 +16,9 @@ public class OrderDto {
     @ApiModelProperty("用户ID")
     private Long userId;
 
+    @ApiModelProperty("用户名")
+    private String nickName;
+
     @ApiModelProperty("订单状态")
     private String status;
 

@@ -2,7 +2,6 @@ package com.order.webservice.domain.vo.order;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -16,6 +15,9 @@ public class OrderVo {
 
     @ApiModelProperty("用户ID")
     private Long user_id;
+
+    @ApiModelProperty("用户名")
+    private String nick_name;
 
     @ApiModelProperty("金额")
     private Double amount;

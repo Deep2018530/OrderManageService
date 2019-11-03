@@ -29,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -65,6 +64,11 @@ public class OrderServiceImpl implements OrderService {
         if (orderDto.getId() != null) {
             queryWrapper.eq("id", orderDto.getId());
         }
+        if (StringUtils.isNotEmpty(orderDto.getNickName()) && orderDto.getId() == null) {
+            User userForId = orderDao.selectOneByName(orderDto.getNickName());
+            queryWrapper.eq("id", userForId.getId());
+        }
+
         if (orderDto.getUserId() != null) {
             queryWrapper.eq("user_id", orderDto.getUserId());
         }
@@ -86,15 +90,19 @@ public class OrderServiceImpl implements OrderService {
         queryWrapper.orderByDesc("create_time");
 
         IPage<Order> pages = orderDao.selectPage(new Page<>(page, size), queryWrapper);
+        if (StringUtils.isEmpty(orderDto.getNickName())) {
+            for (int i = 0; i < (int) pages.getTotal(); i++) {
+                User userForName = orderDao.selectOneById(pages.getRecords().get(i).getUser_id());
+                pages.getRecords().get(i).setNick_name(userForName.getNickName());
+            }
+        }
 
         PageResponseVo<OrderVo> ans = new PageResponseVo<>();
-
         ans.setNumber(pages.getCurrent());
         ans.setSize(pages.getSize());
         ans.setTotalElements(pages.getTotal());
         ans.setTotalPages(pages.getPages());
         ans.setContent(CommonConverter.convertList(pages.getRecords(), this::order2Vo));
-
         return ans;
     }
 
