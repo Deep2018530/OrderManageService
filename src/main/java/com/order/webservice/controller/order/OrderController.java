@@ -6,6 +6,7 @@ import com.order.webservice.domain.dto.order.OrderVerifyDto;
 import com.order.webservice.domain.enums.OrderStatus;
 import com.order.webservice.domain.vo.PageResponseVo;
 import com.order.webservice.domain.vo.order.OrderNewVo;
+import com.order.webservice.domain.vo.order.OrderStatisticsVo;
 import com.order.webservice.domain.vo.order.OrderVo;
 import com.order.webservice.exception.user.UserErrorCode;
 import com.order.webservice.service.order.OrderService;
@@ -18,6 +19,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -76,5 +78,12 @@ public class OrderController {
         } else {
             return HttpResult.success(orderService.rejectVerify(orderVerifyDto.getOrderId(), orderVerifyDto.getUserId(), orderVerifyDto.getRejectReason()));
         }
+    }
+
+    @GetMapping("/statistics")
+    @ApiOperation(value = "订单页面顶部统计")
+    public HttpResult<OrderStatisticsVo> getOrderStatistics() {
+
+        return HttpResult.success(orderService.getOrderStatistics());
     }
 }

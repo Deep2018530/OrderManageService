@@ -4,9 +4,11 @@ import com.order.webservice.domain.dto.order.OrderDto;
 import com.order.webservice.domain.enums.OrderStatus;
 import com.order.webservice.domain.vo.PageResponseVo;
 import com.order.webservice.domain.vo.order.OrderNewVo;
+import com.order.webservice.domain.vo.order.OrderStatisticsVo;
 import com.order.webservice.domain.vo.order.OrderVo;
 
 import java.math.BigInteger;
+import java.util.List;
 
 public interface OrderService {
 
@@ -49,4 +51,11 @@ public interface OrderService {
      * @return
      */
     Boolean rejectVerify(BigInteger orderId, Long userId, String rejectReason);
+
+    /**
+     * 订单顶部统计（审核、未审核)
+     *
+     * @return
+     */
+    OrderStatisticsVo getOrderStatistics();
 }
