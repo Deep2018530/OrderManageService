@@ -150,6 +150,59 @@ public class OrderServiceImpl implements OrderService {
         return true;
     }
 
+    /**
+     * 审核通过
+     *
+     * @param orderId
+     * @param userId
+     * @return
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public Boolean passVerify(BigInteger orderId, Long userId) {
+        //修改订单状态
+        Order order = orderDao.selectById(orderId);
+        Objects.requireNonNull(order, "订单不存在！订单号：" + orderId);
+
+        order.setStatus(OrderStatus.PASS_FOR_REFUND.getDescription());
+        orderDao.updateById(order);
+
+        // 退款
+        QueryWrapper<Account> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId);
+        Account account = accountDao.selectOne(queryWrapper);
+        Double amount = order.getAmount();
+        Float balance = account.getBalance();
+        Objects.requireNonNull(amount, "订单金额异常！amount is null");
+        Objects.requireNonNull(balance, "账户余额异常！balance is null");
+        account.setBalance((float) (balance + amount));
+        Float totalConsumption = account.getTotalConsumption();
+        Objects.requireNonNull(totalConsumption, "账户总消费记录异常！totalConsumption is null");
+        account.setTotalConsumption((float) (totalConsumption - amount));
+        accountDao.updateById(account);
+        return true;
+    }
+
+    /**
+     * 审核拒绝
+     *
+     * @param orderId
+     * @param userId
+     * @param rejectReason
+     * @return
+     */
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
+    public Boolean rejectVerify(BigInteger orderId, Long userId, String rejectReason) {
+        // 修改订单状态
+        Order order = orderDao.selectById(orderId);
+        Objects.requireNonNull(order, "订单不存在！订单号：" + orderId);
+
+        order.setStatus(OrderStatus.REFUSED_FOR_REFUND.getDescription());
+        order.setVerifyRejectReason(rejectReason);
+        return true;
+    }
+
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     public OrderNewVo createOrder(Long userId, Product product) {
         Order order = new Order();

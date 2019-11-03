@@ -21,7 +21,7 @@ public class UserTokenController {
     UserTokenService userTokenService;
 
     @GetMapping("/check/{token}")
-    @ApiOperation(value = "用户登陆")
+    @ApiOperation(value = "token校验")
     public HttpResult<Boolean> check(@PathVariable(value = "token") String token) {
 
         return HttpResult.success(userTokenService.checkToken(token));

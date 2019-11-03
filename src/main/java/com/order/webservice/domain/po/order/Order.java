@@ -35,4 +35,9 @@ public class Order {
     //最后修改时间
     private LocalDateTime last_time;
 
+    /**
+     * 申请退款拒绝原因（审核拒绝原因）
+     */
+    private String verifyRejectReason;
+
 }

@@ -30,4 +30,23 @@ public interface OrderService {
      * @return
      */
     Boolean updateOrderStatus(BigInteger orderId, OrderStatus applyForRefund);
+
+    /**
+     * 审核通过
+     *
+     * @param orderId
+     * @param userId
+     * @return
+     */
+    Boolean passVerify(BigInteger orderId, Long userId);
+
+    /**
+     * 审核拒绝
+     *
+     * @param orderId
+     * @param userId
+     * @param rejectReason
+     * @return
+     */
+    Boolean rejectVerify(BigInteger orderId, Long userId, String rejectReason);
 }

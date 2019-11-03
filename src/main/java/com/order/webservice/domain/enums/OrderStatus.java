@@ -15,7 +15,9 @@ public enum OrderStatus implements IEnum<OrderStatus> {
 
     APPLY_FOR_REFUND("2", "申请退款"),
 
-    REFUSED_FOR_REFUND("3", "拒绝退款");
+    REFUSED_FOR_REFUND("3", "拒绝退款"),
+
+    PASS_FOR_REFUND("4", "成功退款");
 
     OrderStatus(String code, String description) {
         this.code = code;

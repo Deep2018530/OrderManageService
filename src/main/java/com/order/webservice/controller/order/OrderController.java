@@ -2,12 +2,14 @@ package com.order.webservice.controller.order;
 
 import com.order.webservice.common.HttpResult;
 import com.order.webservice.domain.dto.order.OrderDto;
+import com.order.webservice.domain.dto.order.OrderVerifyDto;
 import com.order.webservice.domain.enums.OrderStatus;
 import com.order.webservice.domain.vo.PageResponseVo;
 import com.order.webservice.domain.vo.order.OrderNewVo;
 import com.order.webservice.domain.vo.order.OrderVo;
 import com.order.webservice.exception.user.UserErrorCode;
 import com.order.webservice.service.order.OrderService;
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -61,5 +63,18 @@ public class OrderController {
     public HttpResult applyForRefund(@ApiParam(value = "订单号", required = true) @PathVariable(value = "orderId") BigInteger orderId) {
 
         return HttpResult.success(orderService.updateOrderStatus(orderId, OrderStatus.APPLY_FOR_REFUND));
+    }
+
+    @PostMapping("/refund/verify")
+    @ApiOperation(value = "退款审核")
+    public HttpResult refundVerify(@RequestBody OrderVerifyDto orderVerifyDto) {
+
+        Boolean verifyStatus = orderVerifyDto.getVerifyStatus();
+        Objects.requireNonNull(verifyStatus, "无法确定是否审核成功？");
+        if (verifyStatus.equals(Boolean.TRUE)) {
+            return HttpResult.success(orderService.passVerify(orderVerifyDto.getOrderId(), orderVerifyDto.getUserId()));
+        } else {
+            return HttpResult.success(orderService.rejectVerify(orderVerifyDto.getOrderId(), orderVerifyDto.getUserId(), orderVerifyDto.getRejectReason()));
+        }
     }
 }
