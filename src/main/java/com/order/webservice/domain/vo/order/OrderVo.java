@@ -14,24 +14,27 @@ public class OrderVo {
     private Long id;
 
     @ApiModelProperty("用户ID")
-    private Long user_id;
+    private Long userId;
 
     @ApiModelProperty("用户名")
-    private String nick_name;
+    private String nickName;
 
     @ApiModelProperty("金额")
     private Double amount;
 
     @ApiModelProperty("创建时间")
-    private LocalDateTime create_time;
+    private LocalDateTime createTime;
 
     @ApiModelProperty("支付时间")
-    private LocalDateTime pay_time;
+    private LocalDateTime payTime;
 
     @ApiModelProperty("订单状态")
     private String status;
 
     @ApiModelProperty("最后修改时间")
-    private LocalDateTime last_time;
+    private LocalDateTime lastTime;
+
+    @ApiModelProperty("商品名称")
+    private String productName;
 
 }

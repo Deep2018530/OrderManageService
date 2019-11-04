@@ -7,4 +7,5 @@ import com.order.webservice.domain.po.order.OrderDetail;
  * created by zhangdingping on 2019/11/2
  */
 public interface OrderDetailDao extends BaseMapper<OrderDetail> {
+
 }

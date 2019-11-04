@@ -14,7 +14,7 @@ public interface OrderService {
 
     PageResponseVo<OrderVo> query(Integer page, Integer size, OrderDto orderDto);
 
-
+    PageResponseVo<OrderVo> productQueryOrder(Integer page, Integer size,String productName);
     /**
      * 购买商品→生成订单
      *
