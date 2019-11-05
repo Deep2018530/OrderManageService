@@ -1,9 +1,12 @@
 package com.order.webservice.service.account.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.order.webservice.domain.enums.BillType;
 import com.order.webservice.domain.po.account.Account;
 import com.order.webservice.mapper.account.AccountDao;
 import com.order.webservice.service.account.RechargeService;
+import com.order.webservice.service.bill.BillService;
+import com.order.webservice.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,9 @@ public class RechargeServiceImpl implements RechargeService {
 
     @Autowired
     private AccountDao accountDao;
+
+    @Autowired
+    private BillService billService;
 
     /**
      * 充值
@@ -40,6 +46,8 @@ public class RechargeServiceImpl implements RechargeService {
         account.setTotalRecharge(totalRecharge == null ? 0 : totalRecharge + amount);
 
         accountDao.updateById(account);
+
+        billService.createBill(null, account.getBalance(), amount, userId, BillType.RECHARGE);
         return true;
     }
 }

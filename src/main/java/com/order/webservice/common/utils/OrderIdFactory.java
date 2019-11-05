@@ -15,11 +15,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class OrderIdFactory {
 
     /**
-     *  服务重启就失效
+     * 服务重启就失效
      */
-    private AtomicInteger incr = new AtomicInteger(1);
+    private AtomicInteger incrOrder = new AtomicInteger(1);
 
-    public BigInteger createOrderId() {
+    private AtomicInteger incrBill = new AtomicInteger(1);
+
+    private AtomicInteger incrBillDetail = new AtomicInteger(1);
+
+
+    public BigInteger createId(String type) {
         LocalDate now = LocalDate.now();
         StringBuilder sb = new StringBuilder();
         String s = now.toString();
@@ -29,21 +34,33 @@ public class OrderIdFactory {
                 sb.append(c);
             }
         }
+        int increment = 0;
+        switch (type) {
+            case "order":
+                increment = incrOrder.getAndIncrement();
+                break;
+            case "bill":
+                increment = incrBill.getAndIncrement();
+                break;
+            case "billDetail":
+                increment = incrBillDetail.getAndIncrement();
+        }
 
-        int increment = incr.getAndIncrement();
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(increment);
-        int size = 6 - stringBuilder.length();
+        int size = 8 - stringBuilder.length();
         for (int i = 0; i < size; i++) {
             stringBuilder.append('0');
         }
 
         sb.append(stringBuilder.reverse());
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 5; i++) {
             sb.append(new Random().nextInt(9));
         }
 
         BigInteger bigInteger = new BigInteger(sb.toString());
         return bigInteger;
     }
+
+
 }

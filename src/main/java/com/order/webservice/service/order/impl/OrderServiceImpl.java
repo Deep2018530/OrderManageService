@@ -7,8 +7,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.order.webservice.common.converter.CommonConverter;
 import com.order.webservice.common.utils.OrderIdFactory;
 import com.order.webservice.domain.dto.order.OrderDto;
+import com.order.webservice.domain.enums.BillType;
 import com.order.webservice.domain.enums.OrderStatus;
 import com.order.webservice.domain.po.account.Account;
+import com.order.webservice.domain.po.bill.Bill;
+import com.order.webservice.domain.po.bill.BillDetail;
 import com.order.webservice.domain.po.order.Order;
 import com.order.webservice.domain.po.order.OrderDetail;
 import com.order.webservice.domain.po.product.Product;
@@ -20,10 +23,13 @@ import com.order.webservice.domain.vo.order.OrderStatisticsVo;
 import com.order.webservice.domain.vo.order.OrderVo;
 import com.order.webservice.exception.user.UserErrorCode;
 import com.order.webservice.mapper.account.AccountDao;
+import com.order.webservice.mapper.bill.BillDao;
+import com.order.webservice.mapper.bill.BillDetailDao;
 import com.order.webservice.mapper.order.OrderDao;
 import com.order.webservice.mapper.order.OrderDetailDao;
 import com.order.webservice.mapper.product.ProductDao;
 import com.order.webservice.mapper.user.UserDao;
+import com.order.webservice.service.bill.BillService;
 import com.order.webservice.service.order.OrderService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,10 +61,11 @@ public class OrderServiceImpl implements OrderService {
     private UserDao userDao;
 
     @Autowired
-    private OrderServiceImpl orderServiceImpl;
+    private OrderIdFactory orderIdFactory;
+
 
     @Autowired
-    private OrderIdFactory orderIdFactory;
+    private BillService billService;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -123,7 +130,7 @@ public class OrderServiceImpl implements OrderService {
             ans.setContent(CommonConverter.convertList(order, this::order2Vo));
             return ans;
         } else {
-            return orderServiceImpl.query(page, size, null);
+            return query(page, size, null);
         }
 
     }
@@ -158,11 +165,17 @@ public class OrderServiceImpl implements OrderService {
             account.setBalance(balance - price);
             account.setTotalConsumption(price);
             accountDao.updateById(account);
-            return createOrder(Long.parseLong(userId.toString()), product);
+
+            Long userIdLong = Long.parseLong(userId.toString());
+            //生成账单
+            billService.createBill(productId, balance, price, userIdLong, BillType.BUY);
+
+            return createOrder(userIdLong, product);
         } else {
             throw new RuntimeException("余额不足！");
         }
     }
+
 
     /**
      * 修改订单状态
@@ -210,6 +223,12 @@ public class OrderServiceImpl implements OrderService {
         Objects.requireNonNull(totalConsumption, "账户总消费记录异常！totalConsumption is null");
         account.setTotalConsumption((float) (totalConsumption - amount));
         accountDao.updateById(account);
+
+        QueryWrapper<OrderDetail> orderDetailQueryWrapper = new QueryWrapper<>();
+        orderDetailQueryWrapper.eq("order_id", order.getId());
+        OrderDetail orderDetail = orderDetailDao.selectOne(orderDetailQueryWrapper);
+        billService.createBill(orderDetail.getProductId(), account.getBalance(), orderDetail.getAmount(), userId, BillType.REFUND);
+
         return true;
     }
 
@@ -258,7 +277,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderNewVo createOrder(Long userId, Product product) {
         Order order = new Order();
         order.setAmount(Double.parseDouble(product.getPrice().toString()));
-        order.setId(orderIdFactory.createOrderId());
+        order.setId(orderIdFactory.createId("order"));
         order.setStatus(OrderStatus.FINISHED.getDescription());
         order.setUser_id(userId);
         orderDao.insert(order);
