@@ -130,8 +130,8 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-    public OrderStatus state() {
-        return orderStatus.getByCode(orderStatus.getCode());
+    public List<String> state() {
+        return orderStatus.getAllDescription();
     }
 
     public OrderRefundVo refundQueryOrder(Integer orderId) {

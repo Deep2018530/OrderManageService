@@ -19,6 +19,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -55,7 +56,7 @@ public class OrderController {
 
     @GetMapping("/stateReady")
     @ApiOperation(value = "查询订单数据准备")
-    public HttpResult<OrderStatus> state() {
+    public HttpResult<List<String>> state() {
         return HttpResult.success(orderService.state());
     }
 

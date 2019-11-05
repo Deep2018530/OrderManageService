@@ -9,6 +9,7 @@ import com.order.webservice.domain.vo.order.OrderStatisticsVo;
 import com.order.webservice.domain.vo.order.OrderVo;
 
 import java.math.BigInteger;
+import java.util.List;
 
 public interface OrderService {
 
@@ -16,7 +17,7 @@ public interface OrderService {
 
     PageResponseVo<OrderVo> productQueryOrder(Integer page, Integer size, String productName);
 
-    OrderStatus state();
+    List<String> state();
 
     OrderRefundVo refundQueryOrder(Integer orderId);
 
