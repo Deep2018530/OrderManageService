@@ -14,10 +14,7 @@ import com.order.webservice.domain.po.order.OrderDetail;
 import com.order.webservice.domain.po.product.Product;
 import com.order.webservice.domain.po.user.User;
 import com.order.webservice.domain.vo.PageResponseVo;
-import com.order.webservice.domain.vo.order.OrderDetailNewVo;
-import com.order.webservice.domain.vo.order.OrderNewVo;
-import com.order.webservice.domain.vo.order.OrderStatisticsVo;
-import com.order.webservice.domain.vo.order.OrderVo;
+import com.order.webservice.domain.vo.order.*;
 import com.order.webservice.exception.user.UserErrorCode;
 import com.order.webservice.mapper.account.AccountDao;
 import com.order.webservice.mapper.order.OrderDao;
@@ -56,6 +53,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderServiceImpl orderServiceImpl;
+
+    @Autowired
+    private OrderStatus orderStatus;
 
     @Autowired
     private OrderIdFactory orderIdFactory;
@@ -126,6 +126,14 @@ public class OrderServiceImpl implements OrderService {
             return orderServiceImpl.query(page, size, null);
         }
 
+    }
+
+    public OrderStatus state() {
+        return orderStatus.getByCode(orderStatus.getCode());
+    }
+
+    public OrderRefundVo refundQueryOrder(Integer orderId) {
+        return orderDao.selectOneById(orderId);
     }
 
     /**

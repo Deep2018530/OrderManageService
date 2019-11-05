@@ -4,17 +4,22 @@ import com.order.webservice.domain.dto.order.OrderDto;
 import com.order.webservice.domain.enums.OrderStatus;
 import com.order.webservice.domain.vo.PageResponseVo;
 import com.order.webservice.domain.vo.order.OrderNewVo;
+import com.order.webservice.domain.vo.order.OrderRefundVo;
 import com.order.webservice.domain.vo.order.OrderStatisticsVo;
 import com.order.webservice.domain.vo.order.OrderVo;
 
 import java.math.BigInteger;
-import java.util.List;
 
 public interface OrderService {
 
     PageResponseVo<OrderVo> query(Integer page, Integer size, OrderDto orderDto);
 
-    PageResponseVo<OrderVo> productQueryOrder(Integer page, Integer size,String productName);
+    PageResponseVo<OrderVo> productQueryOrder(Integer page, Integer size, String productName);
+
+    OrderStatus state();
+
+    OrderRefundVo refundQueryOrder(Integer orderId);
+
     /**
      * 购买商品→生成订单
      *
