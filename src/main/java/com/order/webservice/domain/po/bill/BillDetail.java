@@ -1,25 +1,33 @@
 package com.order.webservice.domain.po.bill;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
+
+import java.math.BigInteger;
+import java.time.LocalDateTime;
 
 @Data
 public class BillDetail {
 
-    //收入(充值/退款)
-    private Long income;
 
-    //支出
-    private Long expend;
+    @TableId(value = "id", type = IdType.INPUT)
+    private BigInteger id;
 
-    //价格
-    private Long price;
+    private BigInteger billId;
 
-    //余额
-    private Long balance;
+    private Long productId;
 
-    //商品名称
-    private String productName;
+    private Integer num;
 
-    //账单类型
-    private int billType;
+    private Float price;
+
+    private Float balance;
+
+    private String billType;
+
+    private LocalDateTime createTime;
+
+    private LocalDateTime lastTime;
+
 }

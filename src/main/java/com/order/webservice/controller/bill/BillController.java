@@ -27,8 +27,8 @@ public class BillController {
     @GetMapping("/getBillDetailInfo/{userId}/{month}")
     @ApiOperation(value = "查询账单明细")
     public HttpResult<BillVo> getBillDetailInfo(@ApiParam(value = "用户Id") @PathVariable(value = "userId") Long userId,
-                                                @ApiParam(value = "查询时间(精确到月份,格式:201901)") @PathVariable String month){
+                                                @ApiParam(value = "查询时间(精确到月份,格式:201901)") @PathVariable String month) {
 
-        return HttpResult.success(billService.getBillDetailInfo(userId,month));
+        return HttpResult.success(billService.getBillDetailInfo(userId, month));
     }
 }
