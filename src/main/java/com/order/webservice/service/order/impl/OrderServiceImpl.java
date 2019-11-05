@@ -10,8 +10,6 @@ import com.order.webservice.domain.dto.order.OrderDto;
 import com.order.webservice.domain.enums.BillType;
 import com.order.webservice.domain.enums.OrderStatus;
 import com.order.webservice.domain.po.account.Account;
-import com.order.webservice.domain.po.bill.Bill;
-import com.order.webservice.domain.po.bill.BillDetail;
 import com.order.webservice.domain.po.order.Order;
 import com.order.webservice.domain.po.order.OrderDetail;
 import com.order.webservice.domain.po.product.Product;
@@ -20,8 +18,6 @@ import com.order.webservice.domain.vo.PageResponseVo;
 import com.order.webservice.domain.vo.order.*;
 import com.order.webservice.exception.user.UserErrorCode;
 import com.order.webservice.mapper.account.AccountDao;
-import com.order.webservice.mapper.bill.BillDao;
-import com.order.webservice.mapper.bill.BillDetailDao;
 import com.order.webservice.mapper.order.OrderDao;
 import com.order.webservice.mapper.order.OrderDetailDao;
 import com.order.webservice.mapper.product.ProductDao;
@@ -58,14 +54,10 @@ public class OrderServiceImpl implements OrderService {
     private UserDao userDao;
 
     @Autowired
-    private OrderServiceImpl orderServiceImpl;
-
-    @Autowired
     private OrderStatus orderStatus;
 
     @Autowired
     private OrderIdFactory orderIdFactory;
-
 
     @Autowired
     private BillService billService;
