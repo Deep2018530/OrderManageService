@@ -3,7 +3,6 @@ package com.order.webservice.mapper.user;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.order.webservice.domain.po.user.User;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
 
 /**
@@ -15,4 +14,9 @@ public interface UserDao extends BaseMapper<User> {
 
     @Select(value = "SELECT * FROM user WHERE id = #{userId}")
     User findById(@Param(value = "userId") Long userId);
+
+    User selectOneById(@Param("id") Long id);
+
+    User selectOneByName(@Param("nick_Name") String nick_Name);
+
 }

@@ -55,6 +55,9 @@ public class OrderServiceImpl implements OrderService {
     private UserDao userDao;
 
     @Autowired
+    private OrderServiceImpl orderServiceImpl;
+
+    @Autowired
     private OrderIdFactory orderIdFactory;
 
     @Override
@@ -67,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
             queryWrapper.eq("id", orderDto.getId());
         }
         if (StringUtils.isNotEmpty(orderDto.getNickName()) && orderDto.getId() == null) {
-            User userForId = orderDao.selectOneByName(orderDto.getNickName());
+            User userForId = userDao.selectOneByName(orderDto.getNickName());
             queryWrapper.eq("id", userForId.getId());
         }
 
@@ -94,7 +97,7 @@ public class OrderServiceImpl implements OrderService {
         IPage<Order> pages = orderDao.selectPage(new Page<>(page, size), queryWrapper);
         if (StringUtils.isEmpty(orderDto.getNickName())) {
             for (int i = 0; i < (int) pages.getTotal(); i++) {
-                User userForName = orderDao.selectOneById(pages.getRecords().get(i).getUser_id());
+                User userForName = userDao.selectOneById(pages.getRecords().get(i).getUser_id());
                 pages.getRecords().get(i).setNick_name(userForName.getNickName());
             }
         }
@@ -106,6 +109,23 @@ public class OrderServiceImpl implements OrderService {
         ans.setTotalPages(pages.getPages());
         ans.setContent(CommonConverter.convertList(pages.getRecords(), this::order2Vo));
         return ans;
+    }
+
+    public PageResponseVo<OrderVo> productQueryOrder(Integer page, Integer size, String productName) {
+        if (StringUtils.isNotEmpty(productName)) {
+            List<Order> order = orderDao.selectListById((page - 1) * size, size, productName);
+            PageResponseVo<OrderVo> ans = new PageResponseVo<>();
+            Long totalCount = order.get(0).getTotal_elements();
+            ans.setNumber(page);
+            ans.setSize(size);
+            ans.setTotalElements(totalCount);
+            ans.setTotalPages(totalCount % size == 0 ? totalCount / size : totalCount / size + 1);
+            ans.setContent(CommonConverter.convertList(order, this::order2Vo));
+            return ans;
+        } else {
+            return orderServiceImpl.query(page, size, null);
+        }
+
     }
 
     /**

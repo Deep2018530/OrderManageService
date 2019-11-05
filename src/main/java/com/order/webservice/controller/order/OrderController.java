@@ -43,6 +43,17 @@ public class OrderController {
         return HttpResult.success(orderService.query(page, size, orderDto));
     }
 
+    @GetMapping("/toproduct/{page}/{size}")
+    @ApiOperation(value = "商品名称模糊查询订单")
+    public HttpResult<PageResponseVo<OrderVo>> productQueryOrder(@ApiParam(value = "第几页（第一页是1)")
+                                                     @PathVariable(value = "page") Integer page,
+                                                     @ApiParam(value = "每页条数")
+                                                     @PathVariable(value = "size") Integer size,
+                                                     @ApiParam(value = "商品名")
+                                                     @PathVariable(value = "productName") String productName) {
+        return HttpResult.success(orderService.productQueryOrder(page, size, productName));
+    }
+
     @PostMapping("/{productId}")
     @ApiOperation(value = "购买/新增订单")
     public HttpResult<OrderNewVo> add(@ApiParam(value = "token") @RequestHeader(value = "token") String token,

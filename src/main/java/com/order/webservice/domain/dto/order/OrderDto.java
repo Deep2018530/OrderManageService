@@ -34,4 +34,7 @@ public class OrderDto {
     @ApiModelProperty("结束时间")
     private LocalDateTime createTimeEnd;
 
+    @ApiModelProperty("商品名称")
+    private String productName;
+
 }

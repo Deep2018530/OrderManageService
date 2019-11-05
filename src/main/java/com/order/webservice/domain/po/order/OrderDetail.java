@@ -1,6 +1,5 @@
 package com.order.webservice.domain.po.order;
 
-import com.sun.org.apache.bcel.internal.generic.FLOAD;
 import lombok.Data;
 
 import java.math.BigInteger;
@@ -12,19 +11,24 @@ import java.time.LocalDateTime;
 @Data
 public class OrderDetail {
 
-
     private Long id;
 
+    //订单id
     private BigInteger orderId;
 
+    //商品id
     private Long productId;
 
+    //数量
     private Integer num;
 
+    //单价
     private Float amount;
 
+    //创建时间
     private LocalDateTime createTime;
 
+    //最后修改时间
     private LocalDateTime lastTime;
 
 }

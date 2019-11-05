@@ -8,7 +8,6 @@
         <collection property="userRoles" javaType="ArrayList" column="id" select="selectRolesByUserId"/>
     </resultMap>
 
-
     <select id="selectOne" resultMap="BaseUserMap">
         SELECT * FROM `user` WHERE user.email = #{email} LIMIT 1
     </select>
@@ -19,4 +18,13 @@
         INNER JOIN user_role ur ON `user`.id = ur.user_id
         INNER JOIN role ON ur.role_id = role.id WHERE `user`.id = #{id}
     </select>
+
+    <select id="selectOneById">
+        SELECT * FROM `user` WHERE user.id = #{id}
+    </select>
+
+    <select id="selectOneByName">
+        SELECT * FROM `user` WHERE user.nick_Name = #{nick_Name}
+    </select>
+
 </mapper>
