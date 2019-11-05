@@ -21,5 +21,5 @@ public class BillDetail {
     private String productName;
 
     //账单类型
-    private int billType;
+    private String billType;
 }
