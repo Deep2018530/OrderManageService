@@ -1,5 +1,5 @@
 server:
-  port: 10000
+  port: 10001
   servlet:
     context-path: /zzshx
 
@@ -26,6 +26,11 @@ spring:
       minimum-idle: 3
       connection-timeout: 30000
       connection-test-query: SELECT 1
+      pool-name: HiKariDataSource
+      idle-timeout: 180000
+      auto-commit: true
+    type: com.zaxxer.hikari.HikariDataSource
+
 
 mybatis-plus:
   type-aliases-package: com.order.webservice.domain.po
