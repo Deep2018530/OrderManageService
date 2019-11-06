@@ -134,7 +134,7 @@ public class OrderServiceImpl implements OrderService {
         return orderStatus.getAllDescription();
     }
 
-    public OrderRefundVo refundQueryOrder(Integer orderId) {
+    public List<OrderRefundVo> refundQueryOrder(Integer orderId) {
         return orderDao.selectOneById(orderId);
     }
 

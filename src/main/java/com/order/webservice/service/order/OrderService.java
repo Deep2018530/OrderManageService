@@ -19,7 +19,7 @@ public interface OrderService {
 
     List<String> state();
 
-    OrderRefundVo refundQueryOrder(Integer orderId);
+    List<OrderRefundVo> refundQueryOrder(Integer orderId);
 
     /**
      * 购买商品→生成订单

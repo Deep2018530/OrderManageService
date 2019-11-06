@@ -62,7 +62,7 @@ public class OrderController {
 
     @GetMapping("/refund/query/{orderId}")
     @ApiOperation(value = "查询指定审核状态订单")
-    public HttpResult<OrderRefundVo> refundQueryOrder(@ApiParam(value = "审核状态订单号")
+    public HttpResult<List<OrderRefundVo>> refundQueryOrder(@ApiParam(value = "审核状态订单号")
                                                       @PathVariable(value = "orderId") Integer orderId) {
         return HttpResult.success(orderService.refundQueryOrder(orderId));
     }
