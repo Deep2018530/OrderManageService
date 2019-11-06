@@ -10,21 +10,14 @@ import com.order.webservice.domain.dto.order.OrderDto;
 import com.order.webservice.domain.enums.BillType;
 import com.order.webservice.domain.enums.OrderStatus;
 import com.order.webservice.domain.po.account.Account;
-import com.order.webservice.domain.po.bill.Bill;
-import com.order.webservice.domain.po.bill.BillDetail;
 import com.order.webservice.domain.po.order.Order;
 import com.order.webservice.domain.po.order.OrderDetail;
 import com.order.webservice.domain.po.product.Product;
 import com.order.webservice.domain.po.user.User;
 import com.order.webservice.domain.vo.PageResponseVo;
-import com.order.webservice.domain.vo.order.OrderDetailNewVo;
-import com.order.webservice.domain.vo.order.OrderNewVo;
-import com.order.webservice.domain.vo.order.OrderStatisticsVo;
-import com.order.webservice.domain.vo.order.OrderVo;
+import com.order.webservice.domain.vo.order.*;
 import com.order.webservice.exception.user.UserErrorCode;
 import com.order.webservice.mapper.account.AccountDao;
-import com.order.webservice.mapper.bill.BillDao;
-import com.order.webservice.mapper.bill.BillDetailDao;
 import com.order.webservice.mapper.order.OrderDao;
 import com.order.webservice.mapper.order.OrderDetailDao;
 import com.order.webservice.mapper.product.ProductDao;
@@ -60,9 +53,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private UserDao userDao;
 
+
     @Autowired
     private OrderIdFactory orderIdFactory;
-
 
     @Autowired
     private BillService billService;
@@ -133,6 +126,14 @@ public class OrderServiceImpl implements OrderService {
             return query(page, size, null);
         }
 
+    }
+
+    public List<String> state() {
+        return OrderStatus.getAllDescription();
+    }
+
+    public List<OrderRefundVo> refundQueryOrder(Integer orderId) {
+        return orderDao.selectOneById(orderId);
     }
 
     /**

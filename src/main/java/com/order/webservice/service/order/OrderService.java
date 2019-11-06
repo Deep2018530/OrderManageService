@@ -1,14 +1,12 @@
 package com.order.webservice.service.order;
 
 import com.order.webservice.domain.dto.order.OrderDto;
-import com.order.webservice.domain.enums.BillType;
 import com.order.webservice.domain.enums.OrderStatus;
 import com.order.webservice.domain.vo.PageResponseVo;
 import com.order.webservice.domain.vo.order.OrderNewVo;
+import com.order.webservice.domain.vo.order.OrderRefundVo;
 import com.order.webservice.domain.vo.order.OrderStatisticsVo;
 import com.order.webservice.domain.vo.order.OrderVo;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -18,6 +16,10 @@ public interface OrderService {
     PageResponseVo<OrderVo> query(Integer page, Integer size, OrderDto orderDto);
 
     PageResponseVo<OrderVo> productQueryOrder(Integer page, Integer size, String productName);
+
+    List<String> state();
+
+    List<OrderRefundVo> refundQueryOrder(Integer orderId);
 
     /**
      * 购买商品→生成订单
@@ -62,4 +64,5 @@ public interface OrderService {
      * @return
      */
     OrderStatisticsVo getOrderStatistics();
+
 }
