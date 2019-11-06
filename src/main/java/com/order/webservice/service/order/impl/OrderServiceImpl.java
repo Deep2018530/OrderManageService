@@ -53,8 +53,6 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private UserDao userDao;
 
-    @Autowired
-    private OrderStatus orderStatus;
 
     @Autowired
     private OrderIdFactory orderIdFactory;
@@ -131,7 +129,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public List<String> state() {
-        return orderStatus.getAllDescription();
+        return OrderStatus.getAllDescription();
     }
 
     public List<OrderRefundVo> refundQueryOrder(Integer orderId) {
