@@ -1,5 +1,7 @@
 package com.order.webservice.domain.po.product;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -10,6 +12,7 @@ import java.time.LocalDateTime;
 @Data
 public class Product {
 
+    @TableId(value = "id", type = IdType.INPUT)
     private Long id;
     //产品名称
     private String name;

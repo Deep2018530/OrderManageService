@@ -14,6 +14,7 @@ public class BillDetail {
     @TableId(value = "id", type = IdType.INPUT)
     private BigInteger id;
 
+
     private BigInteger billId;
 
     private Long productId;

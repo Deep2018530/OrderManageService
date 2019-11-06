@@ -1,6 +1,8 @@
 package com.order.webservice.domain.po.user;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,6 +17,7 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = -6125297654796395674L;
 
+    @TableId(value = "id", type = IdType.INPUT)
     private Long id;
 
     private String nickName;
