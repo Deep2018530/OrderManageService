@@ -33,7 +33,7 @@ public class OrderController {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @GetMapping("/{page}/{size}")
+    @PostMapping("/{page}/{size}")
     @ApiOperation(value = "管理员订单查询")
     public HttpResult<PageResponseVo<OrderVo>> query(@ApiParam(value = "第几页（第一页是1)")
                                                      @PathVariable(value = "page") Integer page,
@@ -63,7 +63,7 @@ public class OrderController {
     @GetMapping("/refund/query/{orderId}")
     @ApiOperation(value = "查询指定审核状态订单")
     public HttpResult<List<OrderRefundVo>> refundQueryOrder(@ApiParam(value = "审核状态订单号")
-                                                      @PathVariable(value = "orderId") Integer orderId) {
+                                                            @PathVariable(value = "orderId") Integer orderId) {
         return HttpResult.success(orderService.refundQueryOrder(orderId));
     }
 
