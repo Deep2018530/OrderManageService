@@ -48,7 +48,7 @@ public class OrderIdFactory {
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(increment);
-        int size = 8 - stringBuilder.length();
+        int size = 6 - stringBuilder.length();
         for (int i = 0; i < size; i++) {
             stringBuilder.append('0');
         }
