@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -24,10 +25,9 @@ public class Bill {
     private Float expend;
 
     //账单生成时间
-    private LocalDateTime createTime;
+    private LocalDate date;
 
     //最后修改时间
     private LocalDateTime lastTime;
-
 
 }

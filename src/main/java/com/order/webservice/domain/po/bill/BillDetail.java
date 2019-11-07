@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.math.BigInteger;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 public class BillDetail {
@@ -14,10 +14,11 @@ public class BillDetail {
     @TableId(value = "id", type = IdType.INPUT)
     private BigInteger id;
 
-
     private BigInteger billId;
 
     private Long productId;
+
+    private String name;
 
     private Integer num;
 
@@ -27,8 +28,10 @@ public class BillDetail {
 
     private String billType;
 
-    private LocalDateTime createTime;
+    private LocalDate date;
 
-    private LocalDateTime lastTime;
+    //private LocalDateTime createTime;
+
+    //private LocalDateTime lastTime;
 
 }
