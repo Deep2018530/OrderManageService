@@ -2,7 +2,6 @@ package com.order.webservice.service.order.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.order.webservice.common.converter.CommonConverter;
 import com.order.webservice.common.utils.OrderIdFactory;
 import com.order.webservice.domain.dto.order.OrderDto;
 import com.order.webservice.domain.enums.BillType;
@@ -29,8 +28,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -61,32 +58,39 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public PageResponseVo<Object> query(Integer page, Integer size, OrderDto orderDto) {
-
         PageResponseVo<Object> ans = new PageResponseVo<>();
-
-        if (StringUtils.isNotEmpty(orderDto.getNickName()) && !"".equals(orderDto.getNickName())) {
-            User userForId = userDao.selectOneByName(orderDto.getNickName());
-            orderDto.setUserId(userForId.getId());
-        }
-        if (null == orderDto.getAmountUp() && !"".equals(orderDto.getAmountUp())) {
-            orderDto.setAmountUp(999999999.0f);
-        }
-        if (null == orderDto.getAmountDown() && !"".equals(orderDto.getAmountDown())) {
-            orderDto.setAmountDown(0.0f);
-        }
-        if (null == orderDto.getCreateTimeStart() && "".equals(orderDto.getCreateTimeStart())) {
-            orderDto.setCreateTimeStart(LocalDateTime.parse("1999-01-01 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        }
-        if (null == orderDto.getCreateTimeEnd() && "".equals(orderDto.getCreateTimeEnd())) {
-            orderDto.setCreateTimeEnd(LocalDateTime.parse("9999-12-30 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        }
-
+        List ok = new ArrayList();
         if (StringUtils.isNotEmpty(orderDto.getProductName()) && !"".equals(orderDto.getProductName())) {
             List<OrderDetail> orderDetailList = orderDao.selectDetailByProductName(orderDto.getProductName());
-            List ok = new ArrayList();
             for (OrderDetail orderDetail : orderDetailList) {
-                List<Order> order = orderDao.selectOrderByAnyT(orderDetail.getOrderId(), orderDto.getUserId(), orderDto.getStatus(), orderDto.getCreateTimeStart(), orderDto.getCreateTimeEnd(), orderDto.getAmountUp(), orderDto.getAmountDown());
-                if (null != order.get(0).getId() && !"".equals(order.get(0).getId())) {
+                if (null == orderDto.getId() || "".equals(orderDto.getId()) || orderDetail.getOrderId().equals(orderDto.getId())) {
+                    QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+                    if (null != orderDto.getUserId() && !"".equals(orderDto.getUserId())) {
+                        queryWrapper.eq("user_id", orderDto.getUserId());
+                    } else if (StringUtils.isNotEmpty(orderDto.getNickName()) && !"".equals(orderDto.getNickName())) {
+                        User userForId = userDao.selectOneByName(orderDto.getNickName());
+                        if (null != userForId.getId() && !"".equals(userForId.getId())) {
+                            orderDto.setUserId(userForId.getId());
+                            queryWrapper.eq("user_id", orderDto.getUserId());
+                        }
+                    }
+                    if (null != orderDto.getStatus() && !"".equals(orderDto.getStatus())) {
+                        queryWrapper.eq("status", orderDto.getStatus());
+                    }
+                    if (null != orderDto.getAmountUp() && !"".equals(orderDto.getAmountUp())) {
+                        queryWrapper.le("amount", orderDto.getAmountUp());
+                    }
+                    if (null != orderDto.getAmountDown() && !"".equals(orderDto.getAmountDown())) {
+                        queryWrapper.ge("amount", orderDto.getAmountDown());
+                    }
+                    if (null != orderDto.getCreateTimeStart() && !"".equals(orderDto.getCreateTimeStart())) {
+                        queryWrapper.ge("create_time", orderDto.getCreateTimeStart());
+                    }
+                    if (null != orderDto.getCreateTimeEnd() && !"".equals(orderDto.getCreateTimeEnd())) {
+                        queryWrapper.le("create_time", orderDto.getCreateTimeEnd());
+                    }
+                    queryWrapper.eq("id", orderDetail.getOrderId());
+                    List<Order> order = orderDao.selectOrderByAnyT(queryWrapper);
                     Map<String, Object> oneOb = new HashMap<>();
                     oneOb.put("order", order);
                     oneOb.put("orderDetail", orderDetail);
@@ -95,19 +99,48 @@ public class OrderServiceImpl implements OrderService {
             }
             Long totalCount = (long) ok.size();
             ans.setNumber(page);
-            ans.setSize(size);
+            ans.setSize(size > totalCount ? totalCount : size);
             ans.setTotalElements(totalCount);
             ans.setTotalPages(totalCount % size == 0 ? totalCount / size : totalCount / size + 1);
-            for (int i = 0; i < (page * size) - size; i++) {
-                ok.remove(i);
+            if (page > 1) {
+                for (int i = (page - 1) * size - 1; i >= (page - 2) * size; i--) {
+                    ok.remove(i);
+                }
             }
-            for (int i = size; i < ok.size(); i++) {
+            for (int i = (page * size); i < ok.size(); i++) {
                 ok.remove(i);
             }
             ans.setContent(ok);
         } else {
-            List<Order> pages = orderDao.selectOrderByAny((page - 1) * size, size, orderDto.getId(), orderDto.getUserId(), orderDto.getStatus(), orderDto.getCreateTimeStart(), orderDto.getCreateTimeEnd(), orderDto.getAmountUp(), orderDto.getAmountDown());
-            List ok = new ArrayList();
+            QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+            if (null != orderDto.getUserId() && !"".equals(orderDto.getUserId())) {
+                queryWrapper.eq("user_id", orderDto.getUserId());
+            } else if (StringUtils.isNotEmpty(orderDto.getNickName()) && !"".equals(orderDto.getNickName())) {
+                User userForId = userDao.selectOneByName(orderDto.getNickName());
+                if (null != userForId.getId() && !"".equals(userForId.getId())) {
+                    orderDto.setUserId(userForId.getId());
+                    queryWrapper.eq("user_id", orderDto.getUserId());
+                }
+            }
+            if (null != orderDto.getStatus() && !"".equals(orderDto.getStatus())) {
+                queryWrapper.eq("status", orderDto.getStatus());
+            }
+            if (null != orderDto.getAmountUp() && !"".equals(orderDto.getAmountUp())) {
+                queryWrapper.le("amount", orderDto.getAmountUp());
+            }
+            if (null != orderDto.getAmountDown() && !"".equals(orderDto.getAmountDown())) {
+                queryWrapper.ge("amount", orderDto.getAmountDown());
+            }
+            if (null != orderDto.getCreateTimeStart() && !"".equals(orderDto.getCreateTimeStart())) {
+                queryWrapper.ge("create_time", orderDto.getCreateTimeStart());
+            }
+            if (null != orderDto.getCreateTimeEnd() && !"".equals(orderDto.getCreateTimeEnd())) {
+                queryWrapper.le("create_time", orderDto.getCreateTimeEnd());
+            }
+            if (null != orderDto.getId() && !"".equals(orderDto.getId())) {
+                queryWrapper.eq("id", orderDto.getId());
+            }
+            List<Order> pages = orderDao.selectOrderByAnyT(queryWrapper);
             for (Order order : pages) {
                 List<OrderDetail> orderDetail = orderDao.selectDetailListByOrderId(order.getId());
                 Map<String, Object> oneOb = new HashMap<>();
@@ -115,11 +148,19 @@ public class OrderServiceImpl implements OrderService {
                 oneOb.put("orderDetail", orderDetail);
                 ok.add(oneOb);
             }
-            Long totalCount = orderDao.selectCountByOrderId(orderDto.getId(), orderDto.getUserId(), orderDto.getStatus(), orderDto.getCreateTimeStart(), orderDto.getCreateTimeEnd(), orderDto.getAmountUp(), orderDto.getAmountDown());
+            Long totalCount = orderDao.selectCountByOrderId(queryWrapper);
             ans.setNumber(page);
-            ans.setSize(size);
+            ans.setSize(size > totalCount ? totalCount : size);
             ans.setTotalElements(totalCount);
             ans.setTotalPages(totalCount % size == 0 ? totalCount / size : totalCount / size + 1);
+            if (page > 1) {
+                for (int i = (page - 1) * size - 1; i >= (page - 2) * size; i--) {
+                    ok.remove(i);
+                }
+            }
+            for (int i = (page * size); i < ok.size(); i++) {
+                ok.remove(i);
+            }
             ans.setContent(ok);
         }
         return ans;
@@ -139,7 +180,7 @@ public class OrderServiceImpl implements OrderService {
             PageResponseVo<Object> ans = new PageResponseVo<>();
             Long totalCount = orderDao.selectCountByProductName(productName);
             ans.setNumber(page);
-            ans.setSize(size);
+            ans.setSize(size > totalCount ? totalCount : size);
             ans.setTotalElements(totalCount);
             ans.setTotalPages(totalCount % size == 0 ? totalCount / size : totalCount / size + 1);
             ans.setContent(ok);

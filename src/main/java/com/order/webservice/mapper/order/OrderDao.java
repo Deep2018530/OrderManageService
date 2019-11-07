@@ -1,6 +1,8 @@
 package com.order.webservice.mapper.order;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.order.webservice.domain.po.order.Order;
 import com.order.webservice.domain.po.order.OrderDetail;
 import com.order.webservice.domain.vo.order.OrderRefundVo;
@@ -8,7 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.math.BigInteger;
-import java.time.LocalDateTime;
+
 import java.util.List;
 
 public interface OrderDao extends BaseMapper<Order> {
@@ -30,8 +32,8 @@ public interface OrderDao extends BaseMapper<Order> {
     List<OrderDetail> selectDetailListByOrderId(@Param("orderId") BigInteger orderId);
 
     //根据动态条件从order_detail返回行数
-    @Select("SELECT count(1) FROM `order` WHERE id LIKE '%' || #{id} || '%' and user_id LIKE '%' || #{userId} || '%' and status LIKE '%' || #{status} || '%' and create_time >= #{createTimeStart} and create_time <= #{createTimeEnd} and amount <= #{amountUp} and amount>= #{amountDown}")
-    Long selectCountByOrderId(@Param("id") BigInteger id, @Param("userId") Long userId, @Param("status") String status, @Param("createTimeStart") LocalDateTime createTimeStart, @Param("createTimeEnd") LocalDateTime createTimeEnd, @Param("amountUp") Float amountUp, @Param("amountDown") Float amountDown);
+    @Select("SELECT count(1) FROM `order` ${ew.customSqlSegment}")
+    Long selectCountByOrderId(@Param(Constants.WRAPPER) Wrapper<Order> queryWrapper);
 
     //根据order_id从order返回Order对象集合
     @Select("select * from `order` where id = #{orderId}")
@@ -42,11 +44,7 @@ public interface OrderDao extends BaseMapper<Order> {
     List<OrderRefundVo> selectOneById(@Param("id") BigInteger orderId);
 
     //根据动态条件从order返回Order对象集合
-    @Select("SELECT * FROM `order` WHERE id LIKE '%' || #{id} || '%' and user_id LIKE '%' || #{userId} || '%' and status LIKE '%' || #{status} || '%' and create_time >= #{createTimeStart} and create_time <= #{createTimeEnd} and amount <= #{amountUp} and amount>= #{amountDown} limit #{pageSize},#{size}")
-    List<Order> selectOrderByAny(@Param("pageSize") Integer pageSize, @Param("size") Integer size, @Param("id") BigInteger id, @Param("userId") Long userId, @Param("status") String status, @Param("createTimeStart") LocalDateTime createTimeStart, @Param("createTimeEnd") LocalDateTime createTimeEnd, @Param("amountUp") Float amountUp, @Param("amountDown") Float amountDown);
-
-    //根据动态条件从order返回Order对象集合
-    @Select("SELECT * FROM `order` WHERE id LIKE '%' || #{id} || '%' and user_id LIKE '%' || #{userId} || '%' and status LIKE '%' || #{status} || '%' and create_time >= #{createTimeStart} and create_time <= #{createTimeEnd} and amount <= #{amountUp} and amount>= #{amountDown}")
-    List<Order> selectOrderByAnyT(@Param("id") BigInteger id, @Param("userId") Long userId, @Param("status") String status, @Param("createTimeStart") LocalDateTime createTimeStart, @Param("createTimeEnd") LocalDateTime createTimeEnd, @Param("amountUp") Float amountUp, @Param("amountDown") Float amountDown);
+    @Select("SELECT * FROM `order` ${ew.customSqlSegment}")
+    List<Order> selectOrderByAnyT(@Param(Constants.WRAPPER) Wrapper<Order> queryWrapper);
 
 }
