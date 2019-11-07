@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Data
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 public class OrderDto {
 
     @ApiModelProperty("订单号")
-    private Long id;
+    private BigInteger id;
 
     @ApiModelProperty("用户ID")
     private Long userId;
@@ -23,10 +24,10 @@ public class OrderDto {
     private String status;
 
     @ApiModelProperty("金额上限")
-    private Double amountUp;
+    private Float amountUp;
 
     @ApiModelProperty("金额下限")
-    private Double amountDown;
+    private Float amountDown;
 
     @ApiModelProperty("起始时间")
     private LocalDateTime createTimeStart;

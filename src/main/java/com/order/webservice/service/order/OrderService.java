@@ -13,13 +13,13 @@ import java.util.List;
 
 public interface OrderService {
 
-    PageResponseVo<OrderVo> query(Integer page, Integer size, OrderDto orderDto);
+    PageResponseVo<Object> query(Integer page, Integer size, OrderDto orderDto);
 
-    PageResponseVo<OrderVo> productQueryOrder(Integer page, Integer size, String productName);
+    PageResponseVo<Object> productQueryOrder(Integer page, Integer size, String productName);
 
     List<String> state();
 
-    List<OrderRefundVo> refundQueryOrder(Integer orderId);
+    List<OrderRefundVo> refundQueryOrder(BigInteger orderId);
 
     /**
      * 购买商品→生成订单

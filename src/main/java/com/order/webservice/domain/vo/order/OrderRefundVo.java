@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @ApiModel(value = "订单")
 public class OrderRefundVo {
 
-    @ApiModelProperty("主订单ID")
-    private Long id;
+    @ApiModelProperty("订单ID")
+    private BigInteger orderId;
 
     @ApiModelProperty("用户ID")
     private Long userId;
@@ -39,9 +39,6 @@ public class OrderRefundVo {
     @ApiModelProperty("申请退款拒绝原因（审核拒绝原因）")
     private String verifyRejectReason;
 
-    @ApiModelProperty("子订单ID")
-    private BigInteger orderId;
-
     @ApiModelProperty("商品ID")
     private Long productId;
 
@@ -52,7 +49,7 @@ public class OrderRefundVo {
     private Float unitPrice;
 
     @ApiModelProperty("商品名称")
-    private String Name;
+    private String productName;
 
     @ApiModelProperty("商品概述")
     private String detail;

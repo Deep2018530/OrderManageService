@@ -2,14 +2,12 @@ package com.order.webservice.domain.po.order;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Data
-@TableName("`order`")
 public class Order {
 
     //订单ID
@@ -17,32 +15,26 @@ public class Order {
     private BigInteger id;
 
     //用户ID
-    private Long user_id;
+    private Long userId;
 
     //订单总金额
-    private Double amount;
+    private Float amount;
 
     //订单创建时间
-    private LocalDateTime create_time;
+    private LocalDateTime createTime;
 
     //订单支付时间
-    private LocalDateTime pay_time;
+    private LocalDateTime payTime;
 
     //订单状态
     private String status;
 
     //最后修改时间
-    private LocalDateTime last_time;
+    private LocalDateTime lastTime;
 
     /**
      * 申请退款拒绝原因（审核拒绝原因）
      */
     private String verifyRejectReason;
-
-    //用户名
-    private String nick_name;
-
-    //商品名
-    private String product_name;
 
 }
