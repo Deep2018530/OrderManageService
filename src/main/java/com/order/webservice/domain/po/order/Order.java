@@ -45,7 +45,4 @@ public class Order {
     //商品名
     private String product_name;
 
-    //总数
-    private Long total_elements;
-
 }

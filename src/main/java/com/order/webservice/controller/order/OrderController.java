@@ -43,7 +43,7 @@ public class OrderController {
         return HttpResult.success(orderService.query(page, size, orderDto));
     }
 
-    @GetMapping("/toProduct/{page}/{size}")
+    @PostMapping("/toProduct/{page}/{size}/{productName}")
     @ApiOperation(value = "商品名称模糊查询订单")
     public HttpResult<PageResponseVo<OrderVo>> productQueryOrder(@ApiParam(value = "第几页（第一页是1)")
                                                                  @PathVariable(value = "page") Integer page,
@@ -60,7 +60,7 @@ public class OrderController {
         return HttpResult.success(orderService.state());
     }
 
-    @GetMapping("/refund/query/{orderId}")
+    @PostMapping("/refund/query/{orderId}")
     @ApiOperation(value = "查询指定审核状态订单")
     public HttpResult<List<OrderRefundVo>> refundQueryOrder(@ApiParam(value = "审核状态订单号")
                                                             @PathVariable(value = "orderId") Integer orderId) {
