@@ -9,7 +9,7 @@
     </resultMap>
 
     <select id="selectOne" resultMap="BaseUserMap">
-        SELECT * FROM `user` WHERE user.email = #{email} LIMIT 1
+        SELECT * FROM `user` WHERE email = #{email} LIMIT 1
     </select>
 
     <select id="selectRolesByUserId" resultType="UserRole">
@@ -19,12 +19,12 @@
         INNER JOIN role ON ur.role_id = role.id WHERE `user`.id = #{id}
     </select>
 
-    <select id="selectOneById">
-        SELECT * FROM `user` WHERE user.id = #{id}
+    <select id="selectOneById" resultMap="BaseUserMap">
+        SELECT * FROM `user` WHERE id = #{id}
     </select>
 
-    <select id="selectOneByName">
-        SELECT * FROM `user` WHERE user.nick_Name = #{nick_Name}
+    <select id="selectOneByName" resultMap="BaseUserMap">
+        SELECT * FROM `user` WHERE nick_name = #{nick_name}
     </select>
 
 </mapper>

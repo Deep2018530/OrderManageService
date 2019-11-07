@@ -17,6 +17,6 @@ public interface UserDao extends BaseMapper<User> {
 
     User selectOneById(@Param("id") Long id);
 
-    User selectOneByName(@Param("nick_Name") String nick_Name);
+    User selectOneByName(@Param("nick_name") String nick_name);
 
 }

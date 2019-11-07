@@ -65,9 +65,11 @@ public class OrderServiceImpl implements OrderService {
             for (OrderDetail orderDetail : orderDetailList) {
                 if (null == orderDto.getId() || "".equals(orderDto.getId()) || orderDetail.getOrderId().equals(orderDto.getId())) {
                     QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+                    queryWrapper.eq("id", orderDetail.getOrderId());
                     if (null != orderDto.getUserId() && !"".equals(orderDto.getUserId())) {
                         queryWrapper.eq("user_id", orderDto.getUserId());
-                    } else if (StringUtils.isNotEmpty(orderDto.getNickName()) && !"".equals(orderDto.getNickName())) {
+                    }
+                    if (StringUtils.isNotEmpty(orderDto.getNickName()) && !"".equals(orderDto.getNickName())) {
                         User userForId = userDao.selectOneByName(orderDto.getNickName());
                         if (null != userForId.getId() && !"".equals(userForId.getId())) {
                             orderDto.setUserId(userForId.getId());
@@ -89,7 +91,6 @@ public class OrderServiceImpl implements OrderService {
                     if (null != orderDto.getCreateTimeEnd() && !"".equals(orderDto.getCreateTimeEnd())) {
                         queryWrapper.le("create_time", orderDto.getCreateTimeEnd());
                     }
-                    queryWrapper.eq("id", orderDetail.getOrderId());
                     List<Order> order = orderDao.selectOrderByAnyT(queryWrapper);
                     Map<String, Object> oneOb = new HashMap<>();
                     oneOb.put("order", order);
@@ -115,7 +116,8 @@ public class OrderServiceImpl implements OrderService {
             QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
             if (null != orderDto.getUserId() && !"".equals(orderDto.getUserId())) {
                 queryWrapper.eq("user_id", orderDto.getUserId());
-            } else if (StringUtils.isNotEmpty(orderDto.getNickName()) && !"".equals(orderDto.getNickName())) {
+            }
+            if (StringUtils.isNotEmpty(orderDto.getNickName()) && !"".equals(orderDto.getNickName())) {
                 User userForId = userDao.selectOneByName(orderDto.getNickName());
                 if (null != userForId.getId() && !"".equals(userForId.getId())) {
                     orderDto.setUserId(userForId.getId());
