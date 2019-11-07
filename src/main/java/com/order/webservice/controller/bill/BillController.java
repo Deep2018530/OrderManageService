@@ -3,18 +3,18 @@ package com.order.webservice.controller.bill;
 import com.order.webservice.common.HttpResult;
 import com.order.webservice.domain.vo.BillVo.BillVo;
 import com.order.webservice.domain.vo.account.AccountVo;
+import com.order.webservice.exception.user.UserErrorCode;
 import com.order.webservice.service.bill.BillService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/bill")
@@ -24,11 +24,15 @@ public class BillController {
     @Autowired
     private BillService billService;
 
-    @GetMapping("/getBillDetailInfo/{userId}/{month}")
-    @ApiOperation(value = "查询账单明细")
-    public HttpResult<BillVo> getBillDetailInfo(@ApiParam(value = "用户Id") @PathVariable(value = "userId") Long userId,
-                                                @ApiParam(value = "查询时间(精确到月份,格式:201901)") @PathVariable String month) {
+    @Autowired
+    private RedisTemplate redisTemplate;
 
-        return HttpResult.success(billService.getBillDetailInfo(userId, month));
+    @PostMapping("/getBillDetailInfo/{date}")
+    @ApiOperation(value = "查询账单明细")
+    public HttpResult<BillVo> getBillDetailInfo(@ApiParam(value = "token") @RequestHeader(value = "token") String token,
+                                                @ApiParam(value = "查询时间(格式:2019-11-07)") @PathVariable String date) {
+        Object userId = redisTemplate.opsForValue().get(token);
+        Objects.requireNonNull(userId, UserErrorCode.USER_NOT_EXIST.getMessage());
+        return HttpResult.success(billService.getBillInfo(userId, date));
     }
 }

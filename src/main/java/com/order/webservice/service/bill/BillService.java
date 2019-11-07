@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 
 public interface BillService {
-    BillVo getBillDetailInfo(Long userId, String month);
+    BillVo getBillInfo(Object userId, String date);
 
 
     /**
