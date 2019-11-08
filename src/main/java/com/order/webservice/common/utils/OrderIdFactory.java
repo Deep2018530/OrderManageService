@@ -54,7 +54,7 @@ public class OrderIdFactory {
         }
 
         sb.append(stringBuilder.reverse());
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 4; i++) {
             sb.append(new Random().nextInt(9));
         }
 
