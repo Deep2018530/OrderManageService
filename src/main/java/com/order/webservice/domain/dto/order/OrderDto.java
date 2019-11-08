@@ -15,7 +15,7 @@ public class OrderDto {
     private BigInteger id;
 
     @ApiModelProperty("用户ID")
-    private Long userId;
+    private BigInteger userId;
 
     @ApiModelProperty("用户名")
     private String nickName;

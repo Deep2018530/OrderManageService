@@ -1,5 +1,7 @@
 package com.order.webservice.service.user;
 
+import java.math.BigInteger;
+
 public interface UserTokenService {
 
     /**
@@ -8,7 +10,7 @@ public interface UserTokenService {
      * @param userId
      * @return
      */
-    String setToken(Long userId);
+    String setToken(BigInteger userId);
 
     /**
      * 校验token

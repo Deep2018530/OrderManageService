@@ -45,17 +45,16 @@ public interface OrderService {
      * @param userId
      * @return
      */
-    Boolean passVerify(BigInteger orderId, Long userId);
+    Boolean passVerify(BigInteger orderId, BigInteger userId);
 
     /**
      * 审核拒绝
      *
      * @param orderId
-     * @param userId
      * @param rejectReason
      * @return
      */
-    Boolean rejectVerify(BigInteger orderId, Long userId, String rejectReason);
+    Boolean rejectVerify(BigInteger orderId, String rejectReason);
 
     /**
      * 订单顶部统计（审核、未审核)

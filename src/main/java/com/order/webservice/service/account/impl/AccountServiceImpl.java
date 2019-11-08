@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
      * @param userId
      */
     @Override
-    public void initAccount(Long userId) {
+    public void initAccount(BigInteger userId) {
         if (Objects.isNull(userId)) throw new IllegalArgumentException("参数错误！userId is null");
 
         Account account = new Account();
@@ -38,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountVo getUserAccountInfo(Long userId) {
+    public AccountVo getUserAccountInfo(BigInteger userId) {
         UserAccount userAccount = accountDao.getUserAccountInfo(userId);
         AccountVo accountVo = parseToAccountVo(userAccount);
         return accountVo;

@@ -21,7 +21,7 @@ public class OrderNewVo {
     private BigInteger id;
 
     @ApiModelProperty("用户ID")
-    private Long userId;
+    private BigInteger userId;
 
     @ApiModelProperty("用户昵称")
     private String userName;

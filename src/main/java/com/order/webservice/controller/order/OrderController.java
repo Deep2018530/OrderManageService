@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Objects;
@@ -35,21 +36,21 @@ public class OrderController {
     @PostMapping("/{page}/{size}")
     @ApiOperation(value = "管理员订单查询")
     public HttpResult<PageResponseVo<Object>> query(@ApiParam(value = "第几页（第一页是1)")
-                                                     @PathVariable(value = "page") Integer page,
-                                                     @ApiParam(value = "每页条数")
-                                                     @PathVariable(value = "size") Integer size,
-                                                     @ApiParam(value = "订单查询对象") @RequestBody OrderDto orderDto) {
+                                                    @PathVariable(value = "page") Integer page,
+                                                    @ApiParam(value = "每页条数")
+                                                    @PathVariable(value = "size") Integer size,
+                                                    @ApiParam(value = "订单查询对象") @RequestBody OrderDto orderDto) {
         return HttpResult.success(orderService.query(page, size, orderDto));
     }
 
     @PostMapping("/toProduct/{page}/{size}/{productName}")
     @ApiOperation(value = "商品名称模糊查询订单")
     public HttpResult<PageResponseVo<Object>> productQueryOrder(@ApiParam(value = "第几页（第一页是1)")
-                                                                 @PathVariable(value = "page") Integer page,
-                                                                 @ApiParam(value = "每页条数")
-                                                                 @PathVariable(value = "size") Integer size,
-                                                                 @ApiParam(value = "商品名")
-                                                                 @PathVariable(value = "productName") String productName) {
+                                                                @PathVariable(value = "page") Integer page,
+                                                                @ApiParam(value = "每页条数")
+                                                                @PathVariable(value = "size") Integer size,
+                                                                @ApiParam(value = "商品名")
+                                                                @PathVariable(value = "productName") String productName) {
         return HttpResult.success(orderService.productQueryOrder(page, size, productName));
     }
 
@@ -90,13 +91,15 @@ public class OrderController {
 
     @PostMapping("/refund/verify")
     @ApiOperation(value = "退款审核")
-    public HttpResult refundVerify(@RequestBody OrderVerifyDto orderVerifyDto) {
+    public HttpResult refundVerify(@RequestHeader("token") String token,
+                                   @RequestBody OrderVerifyDto orderVerifyDto) {
         Boolean verifyStatus = orderVerifyDto.getVerifyStatus();
         Objects.requireNonNull(verifyStatus, "无法确定是否审核成功？");
+
         if (verifyStatus.equals(Boolean.TRUE)) {
             return HttpResult.success(orderService.passVerify(orderVerifyDto.getOrderId(), orderVerifyDto.getUserId()));
         } else {
-            return HttpResult.success(orderService.rejectVerify(orderVerifyDto.getOrderId(), orderVerifyDto.getUserId(), orderVerifyDto.getRejectReason()));
+            return HttpResult.success(orderService.rejectVerify(orderVerifyDto.getOrderId(), orderVerifyDto.getRejectReason()));
         }
     }
 

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 /**
@@ -15,7 +16,7 @@ public class Account {
     @TableId(value = "id", type = IdType.INPUT)
     private Long id;
 
-    private Long userId;
+    private BigInteger userId;
 
     private Float balance;
 

@@ -5,6 +5,7 @@ import com.order.webservice.domain.vo.BillVo.BillVo;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 public interface BillService {
@@ -21,5 +22,5 @@ public interface BillService {
      * @param billType
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    void createBill(Long productId, Float balance, Float price, Long userId, BillType billType);
+    void createBill(Long productId, Float balance, Float price, BigInteger userId, BillType billType);
 }

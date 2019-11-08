@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.AccountException;
+import java.math.BigInteger;
 import java.util.Objects;
 
 /**
@@ -32,7 +33,7 @@ public class RechargeServiceImpl implements RechargeService {
      * @param amount
      */
     @Override
-    public Boolean recharge(long userId, float amount) {
+    public Boolean recharge(BigInteger userId, float amount) {
 
         QueryWrapper<Account> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);

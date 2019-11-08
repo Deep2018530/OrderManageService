@@ -18,7 +18,7 @@ public class OrderVerifyDto {
     private BigInteger orderId;
 
     @ApiModelProperty("用户ID")
-    private Long userId;
+    private BigInteger userId;
 
     @ApiModelProperty("是否审核通过")
     private Boolean verifyStatus;

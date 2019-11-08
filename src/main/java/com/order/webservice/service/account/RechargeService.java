@@ -1,5 +1,7 @@
 package com.order.webservice.service.account;
 
+import java.math.BigInteger;
+
 /**
  * created by zhangdingping on 2019/10/31
  */
@@ -10,5 +12,5 @@ public interface RechargeService {
      *
      * @param amount
      */
-    Boolean recharge(long userId, float amount);
+    Boolean recharge(BigInteger userId, float amount);
 }

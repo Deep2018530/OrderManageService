@@ -13,6 +13,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,6 +33,6 @@ public class AccountController {
                                                     @ApiParam(value = "用户Id") @PathVariable(value = "userId") Long userId) {
         Object userIdObj = redisTemplate.opsForValue().get(token);
         Objects.requireNonNull(userIdObj, UserErrorCode.USER_NOT_EXIST.getMessage());
-        return HttpResult.success(accountService.getUserAccountInfo(Long.parseLong(userIdObj.toString())));
+        return HttpResult.success(accountService.getUserAccountInfo(new BigInteger(userIdObj.toString())));
     }
 }

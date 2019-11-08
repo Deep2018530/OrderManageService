@@ -114,7 +114,7 @@ public class BillServiceImpl implements BillService {
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Override
-    public void createBill(Long productId, Float balance, Float price, Long userIdLong, BillType billType) {
+    public void createBill(Long productId, Float balance, Float price, BigInteger userIdLong, BillType billType) {
         Bill bill = new Bill();
         switch (billType) {
             case BUY:

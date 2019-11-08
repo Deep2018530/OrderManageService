@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -38,7 +39,7 @@ public class UserTokenServiceImpl implements UserTokenService {
      */
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
-    public String setToken(Long userId) {
+    public String setToken(BigInteger userId) {
         Objects.requireNonNull(userId);
         String token = getToken();
         redisTemplate.opsForValue().set(token, userId, TOKEN_ACTIVE, TimeUnit.HOURS);

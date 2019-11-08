@@ -1,5 +1,6 @@
 package com.order.webservice.service.user.impl;
 
+import com.order.webservice.common.utils.OrderIdFactory;
 import com.order.webservice.domain.dto.user.UserDto;
 import com.order.webservice.domain.po.user.Role;
 import com.order.webservice.domain.po.user.User;
@@ -46,6 +47,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private OrderIdFactory orderIdFactory;
+
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public UserVo login(String email, String password) {
@@ -68,6 +72,7 @@ public class UserServiceImpl implements UserService {
         //用户
         User user = new User();
         BeanUtils.copyProperties(userDto, user);
+        user.setId(orderIdFactory.createId("user"));
         userDao.insert(user);
 
         //初始化角色

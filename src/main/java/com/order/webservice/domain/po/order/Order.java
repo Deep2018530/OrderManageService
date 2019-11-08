@@ -17,7 +17,7 @@ public class Order {
     private BigInteger id;
 
     //用户ID
-    private Long userId;
+    private BigInteger userId;
 
     //订单总金额
     private Float amount;

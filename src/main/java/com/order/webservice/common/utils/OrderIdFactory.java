@@ -27,10 +27,13 @@ public class OrderIdFactory {
 
     private AtomicInteger incrBillDetail = new AtomicInteger(1);
 
+    private AtomicInteger incrUser = new AtomicInteger(1);
+
+
     public BigInteger createId(String type) {
         LocalDate now = LocalDate.now();
         StringBuilder sb = new StringBuilder();
-        String s = now.toString();
+        String s = now.toString().substring(2);
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             if (c != '-') {
@@ -50,17 +53,19 @@ public class OrderIdFactory {
                 break;
             case "billDetail":
                 increment = incrBillDetail.getAndIncrement();
+            case "user":
+                increment = incrUser.getAndIncrement();
         }
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(increment);
-        int size = 6 - stringBuilder.length();
+        int size = 5 - stringBuilder.length();
         for (int i = 0; i < size; i++) {
             stringBuilder.append('0');
         }
 
         sb.append(stringBuilder.reverse());
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             sb.append(new Random().nextInt(9));
         }
 

@@ -3,6 +3,7 @@ package com.order.webservice.service.account;
 import com.order.webservice.domain.vo.account.AccountVo;
 import com.order.webservice.domain.vo.user.UserVo;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ public interface AccountService {
      *
      * @param userId
      */
-    void initAccount(Long userId);
+    void initAccount(BigInteger userId);
 
-    AccountVo getUserAccountInfo(Long userId);
+    AccountVo getUserAccountInfo(BigInteger userId);
 }

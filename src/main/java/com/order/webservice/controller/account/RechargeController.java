@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigInteger;
 import java.util.Objects;
 
 @RestController
@@ -38,7 +39,7 @@ public class RechargeController {
         Object userId = redisTemplate.opsForValue().get(token);
         Objects.requireNonNull(userId);
 
-        return HttpResult.success(rechargeService.recharge(Long.parseLong(userId.toString()), amount));
+        return HttpResult.success(rechargeService.recharge(new BigInteger(userId.toString()), amount));
 
     }
 }

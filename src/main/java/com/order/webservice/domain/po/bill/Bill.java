@@ -16,7 +16,7 @@ public class Bill {
     private BigInteger id;
 
     //用户id
-    private Long userId;
+    private BigInteger userId;
 
     //收入(充值/退款)
     private Float income;

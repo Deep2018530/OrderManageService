@@ -231,7 +231,7 @@ public class OrderServiceImpl implements OrderService {
             account.setTotalConsumption(price);
             accountDao.updateById(account);
 
-            Long userIdLong = Long.parseLong(userId.toString());
+            BigInteger userIdLong = new BigInteger(userId.toString());
             //生成账单
             billService.createBill(productId, balance, price, userIdLong, BillType.BUY);
 
@@ -267,7 +267,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public Boolean passVerify(BigInteger orderId, Long userId) {
+    public Boolean passVerify(BigInteger orderId, BigInteger userId) {
         //修改订单状态
         Order order = orderDao.selectById(orderId);
         Objects.requireNonNull(order, "订单不存在！订单号：" + orderId);
@@ -307,7 +307,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
-    public Boolean rejectVerify(BigInteger orderId, Long userId, String rejectReason) {
+    public Boolean rejectVerify(BigInteger orderId, String rejectReason) {
         // 修改订单状态
         Order order = orderDao.selectById(orderId);
         Objects.requireNonNull(order, "订单不存在！订单号：" + orderId);
@@ -340,7 +340,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
-    public OrderNewVo createOrder(Long userId, Product product) {
+    public OrderNewVo createOrder(BigInteger userId, Product product) {
         Order order = new Order();
         order.setAmount(Float.parseFloat(product.getPrice().toString()));
         order.setId(orderIdFactory.createId("order"));
