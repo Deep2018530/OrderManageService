@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface BillDao extends BaseMapper<Bill> {
 
-    List<Bill> getBillInfo(Object userId, String date);
+    List<Bill> getBillInfo(Object userId, String startDate, String endDate);
 
-    List<BillDetail> getBillDetail(BigInteger id, String date);
+    List<BillDetail> getBillDetail(BigInteger id, String startDate, String endDate);
 }
