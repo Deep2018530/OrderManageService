@@ -33,11 +33,11 @@ FROM
 LEFT JOIN product p ON bd.product_id = p.id
 WHERE
 	bd.bill_id = 1
-AND bd.create_time $gt;= STR_TO_DATE(
+AND bd.create_time &gt;= STR_TO_DATE(
 	#{startDate},
 	'%Y-%m-%d %H:%i:%s'
 )
-AND bd.create_time $lt;= STR_TO_DATE(
+AND bd.create_time &lt;= STR_TO_DATE(
 	#{endDate},
 	'%Y-%m-%d %H:%i:%s'
 )
