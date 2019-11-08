@@ -45,10 +45,12 @@ public class BillServiceImpl implements BillService {
         Objects.requireNonNull(date, "日期不能为空");
         float sumIncome = 0;
         float sumExpend = 0;
+        String startDate = date + "-01 00:00:00";
+        String endDate = date + "-31 23:59:59";
         BillVo monthBill = new BillVo();
         List monthList = new ArrayList();
         //查询账单
-        List<Bill> billList = billDao.getBillInfo(userId, date);
+        List<Bill> billList = billDao.getBillInfo(userId, startDate, endDate);
 
         if (Objects.isNull(billList)) {
             throw new BillException(BillErrorCode.BILL_NOT_EXIST);
@@ -71,7 +73,7 @@ public class BillServiceImpl implements BillService {
                 BillVo billVo = parseToBillVo(bill);
 
                 //查询账单明细
-                List<BillDetail> billDetailList = billDao.getBillDetail(id, date);
+                List<BillDetail> billDetailList = billDao.getBillDetail(id, startDate, endDate);
                 //遍历账单明细结果集
                 List<BillDetailVo> list = new ArrayList<BillDetailVo>();
                 if (billDetailList.size() > 0) {

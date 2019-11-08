@@ -36,3 +36,6 @@ mybatis-plus:
   type-aliases-package: com.order.webservice.domain.po
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  level:
+    root: trace
