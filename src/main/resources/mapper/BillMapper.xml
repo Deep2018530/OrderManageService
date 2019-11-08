@@ -4,52 +4,46 @@
 
     <!--查询账单信息-->
     <select id="getBillInfo" resultType="Bill">
-        SELECT
-	        b.income,
-	        b.expend,
-	        b.id,
-	        b.create_time as date
-        FROM
-	        bill b
-        WHERE
-	        b.user_id = #{userId}
-        AND b.create_time
-        BETWEEN (
-	        SELECT
-		        date_add(
-			        STR_TO_DATE(#{date}, '%Y-%m-%d'),
-			        INTERVAL - DAY (
-				        STR_TO_DATE(#{date}, '%Y-%m-%d')
-			        ) + 1 DAY
-		        ) AS firstDay
-        )
-        AND date_add(STR_TO_DATE(#{date}, '%Y-%m-%d'),INTERVAL 1 day)
-	ORDER BY date desc;
+       SELECT
+	b.income,
+	b.expend,
+	b.id,
+	b.create_time AS date
+FROM
+	bill b
+WHERE
+	b.user_id = 1
+AND b.create_time >= STR_TO_DATE(#{startDate}, '%Y-%m-%d %H:%i:%s')
+AND b.create_time <= STR_TO_DATE(#{endDate}, '%Y-%m-%d %H:%i:%s')
+ORDER BY
+	date DESC;
     </select>
 
     <!--查询账单明细-->
     <select id="getBillDetail" resultType="BillDetail">
         SELECT
-	        bd.create_time as date,
-	        p.`name`,
-	        bd.num,
-	        bd.price,
-	        bd.bill_type,
-			bd.balance
-        FROM
-	        bill_detail bd
-        LEFT JOIN product p
-        ON bd.product_id = p.id
-        WHERE
-	        bd.create_time BETWEEN (
-		        SELECT
-			        date_add(
-				        STR_TO_DATE(#{date}, '%Y-%m-%d'),
-				        INTERVAL - DAY (STR_TO_DATE(#{date}, '%Y-%m-%d')) + 1 DAY
-			        )
-	        )
-            AND date_add(#{date},INTERVAL '1' DAY)
-            and bd.bill_id=#{id}
-        GROUP BY DAY (bd.create_time);
+	bd.create_time AS date,
+	p.`name`,
+	bd.num,
+	bd.price,
+	bd.bill_type,
+	bd.balance
+FROM
+	bill_detail bd
+LEFT JOIN product p ON bd.product_id = p.id
+WHERE
+	bd.bill_id = 1
+AND bd.create_time >= STR_TO_DATE(
+	#{startDate},
+	'%Y-%m-%d %H:%i:%s'
+)
+AND bd.create_time <= STR_TO_DATE(
+	#{endDate},
+	'%Y-%m-%d %H:%i:%s'
+)
+GROUP BY
+	DAY (bd.create_time)
+ORDER BY
+	bd.create_time DESC;
     </select>
 </mapper>
