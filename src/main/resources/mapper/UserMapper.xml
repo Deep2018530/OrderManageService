@@ -4,7 +4,7 @@
 
     <!-- 登陆用户 -->
     <resultMap id="BaseUserMap" type="User">
-        <id property="id" column="id" javaType="Long"/>
+        <id property="id" column="id"/>
         <collection property="userRoles" javaType="ArrayList" column="id" select="selectRolesByUserId"/>
     </resultMap>
 
