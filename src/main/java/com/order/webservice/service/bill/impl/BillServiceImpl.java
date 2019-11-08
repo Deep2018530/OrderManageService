@@ -43,29 +43,29 @@ public class BillServiceImpl implements BillService {
     public BillVo getBillInfo(Object userId, String date) {
         Objects.requireNonNull(userId, "userId为空，请重新登录！");
         Objects.requireNonNull(date, "日期不能为空");
-        float sumIncome=0;
-        float sumExpend=0;
+        float sumIncome = 0;
+        float sumExpend = 0;
         BillVo monthBill = new BillVo();
         List monthList = new ArrayList();
         //查询账单
-        List<Bill> billList =  billDao.getBillInfo(userId, date);
+        List<Bill> billList = billDao.getBillInfo(userId, date);
 
         if (Objects.isNull(billList)) {
             throw new BillException(BillErrorCode.BILL_NOT_EXIST);
-        }else {
+        } else {
             //遍历账单结果集
             for (int i = 0; i < billList.size(); i++) {
                 Bill bill = billList.get(i);
                 BigInteger id = bill.getId();
                 //计算每月账单收入和支出
-                if (bill.getIncome() == null){
+                if (bill.getIncome() == null) {
                     sumIncome = sumIncome + 0;
-                }else{
+                } else {
                     sumIncome = sumIncome + bill.getIncome();
                 }
-                if (bill.getExpend() == null){
+                if (bill.getExpend() == null) {
                     sumExpend = sumExpend + 0;
-                }else{
+                } else {
                     sumExpend = sumExpend + bill.getExpend();
                 }
                 BillVo billVo = parseToBillVo(bill);
@@ -81,7 +81,7 @@ public class BillServiceImpl implements BillService {
                         list.add(billDetailVo);
                         billVo.setBillDetail(list);
                     }
-                }else{
+                } else {
                     billVo.setBillDetail(null);
                 }
                 monthList.add(billVo);
@@ -114,7 +114,15 @@ public class BillServiceImpl implements BillService {
     @Override
     public void createBill(Long productId, Float balance, Float price, Long userIdLong, BillType billType) {
         Bill bill = new Bill();
-        bill.setExpend(price);
+        switch (billType) {
+            case BUY:
+                bill.setExpend(price);
+                break;
+            case REFUND:
+            case RECHARGE:
+                bill.setIncome(price);
+                break;
+        }
         bill.setUserId(userIdLong);
         bill.setId(orderIdFactory.createId("bill"));
         billDao.insert(bill);
