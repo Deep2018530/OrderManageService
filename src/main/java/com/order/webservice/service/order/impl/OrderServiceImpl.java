@@ -283,10 +283,10 @@ public class OrderServiceImpl implements OrderService {
         Float balance = account.getBalance();
         Objects.requireNonNull(amount, "订单金额异常！amount is null");
         Objects.requireNonNull(balance, "账户余额异常！balance is null");
-        account.setBalance((float) (balance + amount));
+        account.setBalance(balance + amount);
         Float totalConsumption = account.getTotalConsumption();
         Objects.requireNonNull(totalConsumption, "账户总消费记录异常！totalConsumption is null");
-        account.setTotalConsumption((float) (totalConsumption - amount));
+        account.setTotalConsumption(totalConsumption - amount);
         accountDao.updateById(account);
 
         QueryWrapper<OrderDetail> orderDetailQueryWrapper = new QueryWrapper<>();
@@ -314,6 +314,7 @@ public class OrderServiceImpl implements OrderService {
 
         order.setStatus(OrderStatus.REFUSED_FOR_REFUND.getDescription());
         order.setVerifyRejectReason(rejectReason);
+        orderDao.updateById(order);
         return true;
     }
 

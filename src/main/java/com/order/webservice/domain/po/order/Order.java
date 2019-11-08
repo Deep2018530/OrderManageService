@@ -2,12 +2,14 @@ package com.order.webservice.domain.po.order;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Data
+@TableName(value = "`order`")
 public class Order {
 
     //订单ID
