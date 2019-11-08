@@ -2,6 +2,7 @@ package com.order.webservice.domain.po.product;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
  * created by zhangdingping at 2019/10/29
  */
 @Data
+@TableName(value = "product")
 public class Product {
 
     @TableId(value = "id", type = IdType.INPUT)
