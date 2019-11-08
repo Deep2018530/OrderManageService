@@ -2,6 +2,7 @@ package com.order.webservice.domain.po.order;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.math.BigInteger;
@@ -11,10 +12,11 @@ import java.time.LocalDateTime;
  * created by zhangdingping on 2019/11/2
  */
 @Data
+@TableName(value = "orderDetail")
 public class OrderDetail {
 
     @TableId(value = "id", type = IdType.INPUT)
-    private Long id;
+    private BigInteger id;
 
     //订单id
     private BigInteger orderId;
