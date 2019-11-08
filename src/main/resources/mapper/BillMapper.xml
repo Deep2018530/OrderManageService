@@ -23,7 +23,8 @@
 			        ) + 1 DAY
 		        ) AS firstDay
         )
-        AND STR_TO_DATE(#{date}, '%Y-%m-%d');
+        AND date_add(STR_TO_DATE(#{date}, '%Y-%m-%d'),INTERVAL 1 day)
+	ORDER BY date desc;
     </select>
 
     <!--查询账单明细-->
