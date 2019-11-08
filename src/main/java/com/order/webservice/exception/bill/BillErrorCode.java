@@ -17,11 +17,11 @@ public enum BillErrorCode implements IBillErrorde {
 
     @Override
     public String getCode() {
-        return null;
+        return this.code;
     }
 
     @Override
     public String getMessage() {
-        return null;
+        return this.message;
     }
 }
