@@ -21,9 +21,9 @@ public class UserController {
 
     @GetMapping("/login/{email}/{password}")
     @ApiOperation(value = "用户登陆")
-    public HttpResult<UserVo> login(@ApiParam(value = "登陆邮箱", required = true, defaultValue = "1111111111@qq.com")
+    public HttpResult<UserVo> login(@ApiParam(value = "登陆邮箱", required = true, defaultValue = "admin@163.com")
                                     @PathVariable(value = "email") String email,
-                                    @ApiParam(value = "密码", required = true, defaultValue = "123456")
+                                    @ApiParam(value = "密码", required = true, defaultValue = "admin")
                                     @PathVariable(value = "password") String password) {
         return HttpResult.success(userService.login(email, password));
     }

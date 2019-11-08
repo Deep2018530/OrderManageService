@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * created by zhangdingping on 2019/11/2
  */
 @Data
-@TableName(value = "orderDetail")
+@TableName(value = "order_detail")
 public class OrderDetail {
 
     @TableId(value = "id", type = IdType.INPUT)

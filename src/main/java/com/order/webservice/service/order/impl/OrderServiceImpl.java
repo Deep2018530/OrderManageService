@@ -349,6 +349,7 @@ public class OrderServiceImpl implements OrderService {
         orderDao.insert(order);
 
         OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setId(orderIdFactory.createId("orderDetail"));
         orderDetail.setOrderId(order.getId());
         orderDetail.setAmount(product.getPrice());
         orderDetail.setNum(Integer.valueOf(1));

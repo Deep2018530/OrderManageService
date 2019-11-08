@@ -1,5 +1,7 @@
 package com.order.webservice.common.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
@@ -19,10 +21,11 @@ public class OrderIdFactory {
      */
     private AtomicInteger incrOrder = new AtomicInteger(1);
 
+    private AtomicInteger incrOrderDetail = new AtomicInteger(1);
+
     private AtomicInteger incrBill = new AtomicInteger(1);
 
     private AtomicInteger incrBillDetail = new AtomicInteger(1);
-
 
     public BigInteger createId(String type) {
         LocalDate now = LocalDate.now();
@@ -38,6 +41,9 @@ public class OrderIdFactory {
         switch (type) {
             case "order":
                 increment = incrOrder.getAndIncrement();
+                break;
+            case "orderDetail":
+                increment = incrOrderDetail.getAndIncrement();
                 break;
             case "bill":
                 increment = incrBill.getAndIncrement();
